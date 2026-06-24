@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GOS — Playbook toàn diện (Video + Hướng dẫn + Tùy biến)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#6454e3; --purple-light:#a78bfa; --soft:rgba(100,84,227,.10);
+    --ink:#0b1226; --t2:#4a5468; --t3:#8a93a6; --line:rgba(100,84,227,.14); --hair:#eef0f6;
+    --green:#0e9c8a; --amber:#d97706; --coral:#dc2626;
+    --bg1:#fafbff; --bg2:#eef1fb; --card:rgba(255,255,255,.78);
+    --radius:18px; --shadow:0 1px 2px rgba(15,23,42,.03), 0 18px 40px -26px rgba(15,23,42,.22);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif; color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2)); background-attachment:fixed; line-height:1.65; font-size:15px; -webkit-font-smoothing:antialiased}
+  a{color:var(--purple); text-decoration:none} a:hover{text-decoration:underline}
+  code{font-family:'JetBrains Mono',monospace; font-size:.85em; background:var(--soft); color:#4b3fc0; padding:1.5px 6px; border-radius:5px}
+  pre{font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.6; background:#0f1426; color:#e6e9f5; padding:16px 18px; border-radius:12px; overflow:auto}
+  pre code{background:none; color:inherit; padding:0}
+
+  .layout{display:grid; grid-template-columns:280px minmax(0,1fr); max-width:1280px; margin:0 auto; min-height:100vh}
+  .toc{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 50px; border-right:1px solid var(--hair)}
+  .toc .logo{display:flex; align-items:center; gap:11px; margin-bottom:4px}
+  .toc .mark{width:40px;height:40px;border-radius:11px;background:linear-gradient(145deg,var(--purple-light),var(--purple));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(100,84,227,.35)}
+  .toc .mark svg{width:24px;height:24px}
+  .toc .brand{font-weight:800;font-size:15px;letter-spacing:-.3px;line-height:1.1}
+  .toc .brand small{display:block;font-weight:600;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+  .toc nav{margin-top:18px;display:flex;flex-direction:column;gap:1px}
+  .toc .grp{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin:14px 0 5px}
+  .toc a{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:8px;color:var(--t2);font-size:12.8px;font-weight:500;transition:.15s}
+  .toc a:hover,.toc a.on{background:var(--soft);color:var(--purple);text-decoration:none}
+
+  main{padding:42px 56px 110px; max-width:900px}
+  .hero{margin-bottom:8px}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);background:var(--soft);padding:6px 13px;border-radius:999px;border:1px solid var(--line)}
+  h1{font-size:38px;line-height:1.1;letter-spacing:-1.2px;font-weight:800;margin:16px 0 10px}
+  .lede{font-size:16.5px;color:var(--t2);text-align:justify;max-width:700px}
+  h2{font-size:25px;letter-spacing:-.5px;font-weight:800;margin:0 0 4px;scroll-margin-top:20px}
+  h3{font-size:18px;font-weight:800;letter-spacing:-.2px;margin:28px 0 6px;scroll-margin-top:20px}
+  h4{font-size:14px;font-weight:700;margin:18px 0 5px}
+  .sec{margin-top:48px;padding-top:30px;border-top:1px solid var(--hair)}
+  .sec>.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:7px}
+  p{text-align:justify} ul,ol{padding-left:22px} li{margin:5px 0;text-align:justify}
+
+  .card{background:var(--card);-webkit-backdrop-filter:blur(12px) saturate(130%);backdrop-filter:blur(12px) saturate(130%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;margin:16px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px 22px;margin:18px 0}
+  .mod .mh{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .mod .ic{width:34px;height:34px;border-radius:10px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto}
+  .mod h3{margin:0;font-size:17px}
+  .mod .role{font-size:11px;color:var(--t3);font-weight:600}
+  .step{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--hair)} .step:last-child{border-bottom:none}
+  .step .n{flex:0 0 28px;height:28px;border-radius:9px;background:var(--soft);color:var(--purple);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .step .b b{display:block;margin-bottom:1px}
+  .callout{border-left:3px solid var(--purple);background:var(--soft);border-radius:0 12px 12px 0;padding:12px 16px;margin:14px 0;font-size:14px}
+  .callout.warn{border-color:var(--amber);background:rgba(217,119,6,.08)} .callout.tip{border-color:var(--green);background:rgba(14,156,138,.08)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--hair);vertical-align:top}
+  th{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--t3);background:rgba(100,84,227,.04)}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--hair);border-radius:14px;margin:14px 0}
+  .tbl-wrap table{margin:0} .tbl-wrap th:first-child,.tbl-wrap td:first-child{padding-left:15px}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+  .tag.num{background:rgba(14,156,138,.12);color:var(--green)} .tag.str{background:rgba(100,84,227,.12);color:var(--purple)}
+  footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--hair);color:var(--t3);font-size:13px}
+
+  /* ===== Video player ===== */
+  .player{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 70px -34px rgba(31,38,135,.45);background:#0f1220;margin:18px 0}
+  .stage{position:relative;aspect-ratio:16/9;background:radial-gradient(circle at 50% 35%,#1c1b2e,#0d0c15)}
+  .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:5% 6%;opacity:0;transform:scale(.98);transition:opacity .5s,transform .5s;pointer-events:none}
+  .scene.active{opacity:1;transform:scale(1)}
+  .stepbadge{position:absolute;top:15px;left:17px;z-index:6;display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(6px);font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px}
+  .stepbadge b{color:var(--purple-light)}
+  .glass{background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.6);border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+  .mockcard{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:12px 14px}
+  .lbl{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3)}
+  .vval{font-size:22px;font-weight:800;letter-spacing:-.5px}
+  .spk{height:3px;border-radius:3px;background:linear-gradient(90deg,var(--purple-light),var(--purple));margin-top:8px}
+  .vchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:6px 11px;border-radius:8px;border:1px solid var(--hair);background:#fff;color:var(--t2)}
+  .btnp{background:var(--purple);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-weight:700;font-size:12px;font-family:inherit}
+  .vrow{display:flex;gap:10px;align-items:center}
+  .up{color:var(--green);font-weight:700} .down{color:var(--coral);font-weight:700}
+  .ring{position:absolute;border:2.5px solid var(--purple-light);border-radius:12px;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(167,139,250,.25)}50%{box-shadow:0 0 0 10px rgba(167,139,250,.05)}}
+  .cursor{position:absolute;width:22px;height:22px;z-index:7;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));animation:tap 1.4s infinite}
+  @keyframes tap{0%,100%{transform:scale(1)}45%{transform:scale(.82)}}
+  .subtitle{position:absolute;left:0;right:0;bottom:0;z-index:6;padding:15px 20px 17px;background:linear-gradient(0deg,rgba(7,8,16,.92),rgba(7,8,16,0));color:#fff}
+  .subtitle .t{font-size:15.5px;font-weight:700} .subtitle .d{font-size:12.5px;color:#c9cbe0;margin-top:3px}
+  .controls{display:flex;align-items:center;gap:13px;padding:11px 16px;background:#12152a;color:#fff}
+  .pbtn{width:38px;height:38px;border-radius:50%;border:none;background:var(--purple);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .pbtn.ghost{background:rgba(255,255,255,.1)} .pbtn svg{width:16px;height:16px}
+  .track{flex:1;height:6px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;cursor:pointer}
+  .fillbar{height:100%;width:0%;background:linear-gradient(90deg,var(--purple-light),var(--purple));border-radius:999px}
+  .time{font-size:12px;font-weight:600;color:#aab;font-variant-numeric:tabular-nums}
+  .dots{display:flex;gap:7px;justify-content:center;margin:14px 0 0;flex-wrap:wrap}
+  .dot{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--t2);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:6px 12px;cursor:pointer}
+  .dot.on{background:var(--soft);border-color:var(--line);color:var(--purple)}
+  .dot i{width:18px;height:18px;border-radius:50%;background:var(--soft);color:var(--purple);font-style:normal;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .dot.on i{background:var(--purple);color:#fff}
+
+  @media (max-width:980px){.layout{grid-template-columns:1fr}.toc{position:static;height:auto;border-right:none;border-bottom:1px solid var(--hair)}.toc nav{display:none}main{padding:28px 20px 60px}.grid2,.grid3{grid-template-columns:1fr}h1{font-size:29px}}
+  @media print{body{background:#fff}.toc,.player .controls{display:none}.layout{display:block;max-width:none}main{max-width:none;padding:0}.card,.mod{break-inside:avoid;box-shadow:none;backdrop-filter:none;background:#fff}pre{background:#f4f5fa;color:#1a1f33}a{color:var(--ink)}}
+
+  .toc a svg, .kicker svg, .mod .ic svg, .vchip svg, .dot svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.2px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .mod .ic svg {
+    width: 18px;
+    height: 18px;
+    color: var(--purple);
+  }
+  </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="toc">
+    <div class="logo">
+      <span class="mark"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="5"/><ellipse cx="50" cy="50" rx="22" ry="44" fill="none" stroke="#fff" stroke-width="5"/><circle cx="50" cy="50" r="5" fill="#fff"/></svg></span>
+      <span class="brand">GROWTH OS<small>Playbook toàn diện</small></span>
+    </div>
+    <nav id="toc">
+      <span class="grp">Bắt đầu</span>
+      <a href="#video"><i data-lucide="clapperboard"></i> Video hướng dẫn</a>
+      <a href="#overview"><i data-lucide="book-open"></i> 1 · Tổng quan hệ thống</a>
+      <a href="#ui"><i data-lucide="layout"></i> 2 · Giao diện &amp; thành phần</a>
+      <a href="#rbac"><i data-lucide="key-round"></i> 3 · Đăng nhập &amp; phân quyền</a>
+      <span class="grp">12 Module</span>
+      <a href="#m-overview"><i data-lucide="layout-dashboard"></i> Tổng quan</a>
+      <a href="#m-customer"><i data-lucide="users"></i> Khách hàng</a>
+      <a href="#m-product"><i data-lucide="smartphone"></i> Sản phẩm</a>
+      <a href="#m-ads"><i data-lucide="compass"></i> Quảng cáo</a>
+      <a href="#m-content"><i data-lucide="file-text"></i> Nội dung</a>
+      <a href="#m-exp"><i data-lucide="beaker"></i> Thí nghiệm</a>
+      <a href="#m-strategy"><i data-lucide="trending-up"></i> Chiến lược</a>
+      <a href="#m-market"><i data-lucide="globe"></i> Thị trường</a>
+      <a href="#m-capital"><i data-lucide="calculator"></i> Tài chính</a>
+      <a href="#m-team"><i data-lucide="users-2"></i> Đội ngũ</a>
+      <a href="#m-gov"><i data-lucide="settings"></i> Cài đặt</a>
+      <a href="#m-guide"><i data-lucide="workflow"></i> Sơ đồ &amp; Hướng dẫn</a>
+      <span class="grp">Tùy biến template</span>
+      <a href="#data"><i data-lucide="database"></i> 5 · Nhập liệu chuyên sâu</a>
+      <a href="#config"><i data-lucide="sliders"></i> 6 · Thông số &amp; cấu hình</a>
+      <a href="#branding"><i data-lucide="palette"></i> 7 · Đổi thương hiệu</a>
+      <span class="grp">Vận hành</span>
+      <a href="#workflow"><i data-lucide="git-branch"></i> 8 · Luồng thao tác chuẩn</a>
+      <a href="#usecase"><i data-lucide="briefcase"></i> 9 · Use Cases</a>
+      <a href="#trouble"><i data-lucide="help-circle"></i> 10 · Mẹo &amp; xử lý sự cố</a>
+      <a href="#ref"><i data-lucide="table"></i> 11 · Tham khảo dữ liệu</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <span class="pill">● Playbook tất-cả-trong-một · Miễn phí từ OT Growth</span>
+      <h1>Playbook toàn diện<br>Growth Operating System</h1>
+      <p class="lede">Một tài liệu duy nhất gộp đủ: <b>video hướng dẫn tương tác</b>, hướng dẫn chi tiết <b>12 module</b>, và cẩm nang tùy biến (<b>nhập liệu · thông số · thương hiệu</b>) để bạn tải template về và biến thành ứng dụng riêng của doanh nghiệp. Bấm <b>Ctrl/⌘ + P</b> để xuất ra PDF. Miễn phí hoàn toàn từ OT Growth.</p>
+      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="https://github.com/ttthoa2205-create/GOS---Free-model" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(59, 130, 246, 0.15); color: #3b82f6; font-weight: 700; font-size: 13.5px; padding: 10px 20px; border-radius: 99px; text-decoration: none; transition: background 0.2s; border: 1px solid rgba(59, 130, 246, 0.3);">
+          <i data-lucide="github" style="width: 16px; height: 16px;"></i> Xem trên GitHub
+        </a>
+        <a href="https://github.com/ttthoa2205-create/GOS---Free-model/archive/refs/heads/main.zip" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.15); color: #10b981; font-weight: 700; font-size: 13.5px; padding: 10px 20px; border-radius: 99px; text-decoration: none; transition: background 0.2s; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <i data-lucide="download" style="width: 16px; height: 16px;"></i> Tải trực tiếp file ZIP
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== VIDEO ===================== -->
+    <section class="sec" id="video">
+      <div class="kicker"><i data-lucide="clapperboard"></i> Bắt đầu nhanh</div>
+      <h2>Video hướng dẫn — Dùng GOS trong 7 bước</h2>
+      <p>Bấm <b>Play</b> để xem hướng dẫn tự chạy (~45 giây), hoặc bấm từng chương bên dưới.</p>
+      <div class="player">
+        <div class="stage" id="stage">
+          <div class="scene active" data-i="0"><div class="glass" style="width:300px;padding:24px;text-align:center"><div style="width:44px;height:44px;margin:0 auto 10px;border-radius:11px;background:linear-gradient(145deg,var(--purple-light),var(--purple))"></div><div style="font-weight:800;font-size:16px">GROWTH OS</div><div class="lbl" style="margin:10px 0 4px;text-align:left">Email</div><div class="mockcard" style="text-align:left;color:var(--t3);font-size:12px;padding:9px 12px">ceo@ot-growth.com</div><div class="lbl" style="margin:10px 0 4px;text-align:left">Mật khẩu</div><div class="mockcard" style="text-align:left;color:var(--t3);font-size:12px;padding:9px 12px">••••••</div><div style="position:relative;margin-top:16px"><button class="btnp" style="width:100%;height:38px">→ Đăng Nhập</button><span class="ring" style="inset:-4px"></span><svg class="cursor" style="right:14px;bottom:-6px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div></div></div>
+          <div class="scene" data-i="1"><div style="width:100%"><div class="vrow" style="justify-content:space-between;margin-bottom:14px"><div style="color:#fff;font-weight:800;font-size:15px">Tổng quan</div><div class="vchip" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#fff">❤ Health <b style="margin-left:5px;color:var(--purple-light)">78/100</b></div></div><div class="vrow" style="gap:12px;align-items:stretch"><div class="mockcard" style="flex:1"><div class="lbl">Doanh thu</div><div class="vval">$543.200</div><div class="up" style="font-size:11px">▲ +12.5%</div><div class="spk"></div></div><div class="mockcard" style="flex:1"><div class="lbl">KYC</div><div class="vval">16.960</div><div class="up" style="font-size:11px">▲ +15.3%</div><div class="spk"></div></div><div class="mockcard" style="flex:1"><div class="lbl">LTV / CAC</div><div class="vval">3.05x</div><div class="up" style="font-size:11px">▲ +18.7%</div><div class="spk"></div></div><div class="mockcard" style="flex:1"><div class="lbl">ROAS</div><div class="vval">3.05x</div><div class="up" style="font-size:11px">▲ +6.1%</div><div class="spk"></div></div></div></div></div>
+          <div class="scene" data-i="2"><div style="width:100%;max-width:560px"><div class="vrow" style="justify-content:flex-end;margin-bottom:12px;position:relative"><span class="vchip" style="position:relative"><i data-lucide="calendar"></i> 30 ngày ▾ <span class="ring" style="inset:-5px"></span></span><svg class="cursor" style="right:-2px;top:24px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div><div class="glass" style="margin-left:auto;width:150px;padding:6px;font-size:12px;color:var(--t2)"><div style="padding:6px 10px">7 ngày</div><div style="padding:6px 10px;border-radius:7px;background:var(--soft);color:var(--purple);font-weight:700">30 ngày</div><div style="padding:6px 10px">90 ngày</div><div style="padding:6px 10px">180 ngày</div><div style="padding:6px 10px">365 ngày</div></div><div class="mockcard" style="margin-top:12px"><div class="lbl">Doanh thu (đổi theo kỳ)</div><div class="vval" style="color:var(--purple)">$543.200 <span style="font-size:13px;color:var(--t3)">→ co giãn ×kỳ</span></div></div></div></div>
+          <div class="scene" data-i="3"><div class="vrow" style="width:100%;gap:14px;align-items:stretch"><div class="glass" style="width:150px;padding:10px;font-size:12px;color:var(--t2)"><div style="padding:7px 9px">Tổng quan</div><div style="padding:7px 9px">Khách hàng</div><div style="padding:7px 9px;background:var(--purple);color:#fff;border-radius:8px;font-weight:700;position:relative">Quảng cáo<span class="ring" style="inset:-3px"></span></div><div style="padding:7px 9px">Nội dung</div><svg class="cursor" style="left:120px;top:74px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div><div style="flex:1" class="vrow"><div class="mockcard" style="flex:1"><div class="lbl">Blended CAC</div><div class="vval">$10.50</div><div class="down" style="font-size:11px">▼ tốt hơn</div></div><div class="mockcard" style="flex:1;margin-left:10px"><div class="lbl">ROAS</div><div class="vval">3.05x</div><div class="up" style="font-size:11px">▲ khỏe</div></div></div></div></div>
+          <div class="scene" data-i="4"><div style="position:relative"><div class="mockcard"><div class="lbl">Growth Health ⓘ</div><div class="vval">78/100</div></div><div class="glass" style="position:absolute;top:-8px;left:120px;width:262px;padding:13px 15px;text-align:left;font-size:12px;line-height:1.55"><div style="font-weight:800;margin-bottom:4px">Growth Health</div><div><b style="color:var(--purple)">Ý nghĩa:</b> sức khỏe tăng trưởng tổng hợp.</div><div><b style="color:var(--purple)">Cách tính:</b> trung bình 5 chiều có trọng số.</div><div><b style="color:var(--purple)">Công thức:</b> Σ(điểm × trọng số).</div><div><b style="color:var(--purple)">Biến động:</b> ▲ bền vững · ▼ cảnh báo.</div></div><svg class="cursor" style="left:96px;top:6px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div></div>
+          <div class="scene" data-i="5"><div class="glass" style="width:100%;max-width:480px;padding:16px 18px;text-align:left"><div style="font-weight:800;font-size:13px;margin-bottom:10px">Sơ đồ &amp; Hướng dẫn → Import / Export</div><div class="vrow" style="gap:8px;margin-bottom:10px"><span class="vchip">Khách hàng ▾</span><span class="vchip" style="background:var(--soft);color:var(--purple);border-color:var(--line)">JSON</span><span class="vchip">CSV</span></div><div class="mockcard" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--t2);height:54px;overflow:hidden">[{ "Customer_ID":"CUST-0001", "Source":"Meta Ads", "LTV":42.0 }, …]</div><div class="vrow" style="gap:8px;margin-top:10px;position:relative"><span class="vchip">Xuất</span><span class="vchip">Nhập</span><span class="vchip" style="background:var(--purple);color:#fff;border:none;position:relative"><i data-lucide="save"></i> Lưu vào trình duyệt<span class="ring" style="inset:-4px"></span></span><svg class="cursor" style="right:6px;bottom:-8px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div></div></div>
+          <div class="scene" data-i="6"><div class="glass" style="width:100%;max-width:520px;padding:16px 18px;text-align:left"><div class="vrow" style="justify-content:space-between;margin-bottom:12px"><div style="font-weight:800;font-size:13px">Cài đặt → Phân quyền Thành viên</div><span class="vchip" style="background:var(--purple);color:#fff;border:none">+ Thêm thành viên</span></div><div class="mockcard vrow" style="justify-content:space-between;align-items:center"><div><b style="font-size:13px">Growth Lead</b><div class="lbl">lead@ot-growth.com</div></div><div style="position:relative"><span class="vchip" style="background:var(--soft);color:var(--green);border-color:var(--line)">✓ Kích hoạt</span><span class="ring" style="inset:-4px"></span></div><svg class="cursor" style="right:8px;bottom:-10px" viewBox="0 0 24 24" fill="#fff"><path d="M5 3l15 9-6 1.5L11 20z"/></svg></div><div style="font-size:11px;color:var(--t3);margin-top:8px">Thành viên chỉ đăng nhập được sau khi CEO kích hoạt.</div></div></div>
+          <div class="scene" data-i="7"><div style="text-align:center;color:#fff"><div><i data-lucide="party-popper" style="width:40px;height:40px;color:var(--purple-light)"></i></div><div style="font-weight:800;font-size:22px;margin-top:6px">Bạn đã sẵn sàng!</div><div style="color:#c9cbe0;font-size:13.5px;margin-top:6px">Cuộn xuống để đọc hướng dẫn chi tiết từng phần ↓</div></div></div>
+          <div class="stepbadge">Bước <b id="badgeNum">1</b> / 7</div>
+          <div class="subtitle"><div class="t" id="subT">Đăng nhập hệ thống</div><div class="d" id="subD">Mở app và đăng nhập bằng tài khoản CEO mặc định.</div></div>
+        </div>
+        <div class="controls">
+          <button class="pbtn" id="play"><svg id="icPlay" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg><svg id="icPause" viewBox="0 0 24 24" fill="#fff" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+          <button class="pbtn ghost" id="prev"><svg viewBox="0 0 24 24" fill="#fff"><path d="M14 6l-6 6 6 6V6z"/></svg></button>
+          <button class="pbtn ghost" id="next"><svg viewBox="0 0 24 24" fill="#fff"><path d="M10 6l6 6-6 6V6z"/></svg></button>
+          <div class="track" id="track"><div class="fillbar" id="fillbar"></div></div>
+          <div class="time" id="time">1 / 8</div>
+        </div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </section>
+
+    <!-- ===================== 1 OVERVIEW ===================== -->
+    <section class="sec" id="overview">
+      <div class="kicker">01 · Nền tảng</div>
+      <h2>Tổng quan hệ thống</h2>
+      <p>GOS là <b>bảng điều khiển vận hành tăng trưởng</b> chạy hoàn toàn ở trình duyệt (HTML + JS + CSS, không cần backend). Số liệu nạp từ một tệp dữ liệu JavaScript duy nhất, tính toán trực tiếp theo mô hình phễu <b>AARRR</b> (Thu hút → Kích hoạt → Giữ chân → Doanh thu → Lan truyền).</p>
+      <div class="grid2">
+        <div class="card"><h4>2 bảng dữ liệu cốt lõi</h4><p style="font-size:14px"><code>db.customers</code> — sổ cái khách hàng (mỗi dòng = 1 user).<br><code>db.campaigns</code> — hiệu suất quảng cáo theo kênh. Thay 2 bảng này = toàn bộ dashboard tự tính lại.</p></div>
+        <div class="card"><h4>Cách chạy</h4><p style="font-size:14px">Chạy <code>python3 serve.py</code> → mở <code>http://127.0.0.1:8799</code> → đăng nhập CEO mặc định <code>ceo@ot-growth.com / gos123</code>.</p></div>
+      </div>
+      <h4>Vai trò &amp; quyền truy cập (RBAC)</h4>
+      <div class="tbl-wrap"><table>
+        <tr><th>Vai trò</th><th>Trọng tâm</th><th>Tab được cấp</th></tr>
+        <tr><td><b>CEO</b></td><td>Toàn cảnh, OKR, vốn, chiến lược</td><td>Tất cả tab (toàn quyền)</td></tr>
+        <tr><td>CMO</td><td>Marketing, chi tiêu, thương hiệu</td><td>Tổng quan, Quảng cáo, Nội dung, Chiến lược, Thị trường, Hướng dẫn</td></tr>
+        <tr><td>Growth Lead</td><td>Acquisition, spend, bão hòa kênh</td><td>Quảng cáo, Nội dung, Chiến lược, Thị trường, Hướng dẫn</td></tr>
+        <tr><td>Product Manager</td><td>Sản phẩm, khách hàng, vận hành</td><td>Khách hàng, Sản phẩm, Đội ngũ, Hướng dẫn</td></tr>
+        <tr><td>Creative Specialist</td><td>Sáng tạo nội dung</td><td>Nội dung, Đội ngũ, Hướng dẫn</td></tr>
+        <tr><td>Admin</td><td>Toàn quyền + cấu hình</td><td>Tất cả + Cài đặt (trừ Tổng quan)</td></tr>
+      </table></div>
+    </section>
+
+    <!-- ===================== 2 UI ===================== -->
+    <section class="sec" id="ui">
+      <div class="kicker">02 · Giao diện</div>
+      <h2>Giao diện chung &amp; các thành phần lặp lại</h2>
+      <h4>Bố cục 4 vùng</h4>
+      <pre><code>┌ TOPBAR: Tên trang · Tìm nhanh (⌘K) · Theme · Chỉ xem · Tùy chỉnh · Persona · Thời gian │ Health · LTV/CAC ┐
+│ SIDEBAR │           VÙNG NỘI DUNG CHÍNH (75–85%)            │  PANEL PHẢI (Growth Recommend · Tùy biến live) │
+└ điều hướng ────────────────────────────────────────────────────────────────────────────────────────────┘</code></pre>
+      <h4>Topbar — công cụ luôn hiện</h4>
+      <div class="tbl-wrap"><table>
+        <tr><th>Thành phần</th><th>Chức năng</th></tr>
+        <tr><td>Tìm nhanh (⌘K)</td><td>Tìm kiếm toàn cục</td></tr>
+        <tr><td>Theme 🌙/☀️</td><td>Chuyển giao diện Sáng ↔ Tối</td></tr>
+        <tr><td>Chỉ xem</td><td>Khóa thao tác chỉnh sửa (trình bày an toàn)</td></tr>
+        <tr><td>Tùy chỉnh</td><td>Sửa nhãn chữ &amp; ngưỡng KPI ngay trên giao diện (CEO/Admin)</td></tr>
+        <tr><td>Active Persona</td><td>(CEO) xem dashboard dưới góc nhìn từng vai trò</td></tr>
+        <tr><td>Bộ chọn thời gian</td><td>7 / 30 / 90 / 180 / 365 ngày</td></tr>
+      </table></div>
+      <h4>Công cụ thời gian — dữ liệu đổi theo kỳ</h4>
+      <ul>
+        <li><b>Lọc</b> dữ liệu khách hàng theo <code>Install_Date ≥ Hôm nay − số ngày</code>.</li>
+        <li><b>Co giãn</b> dữ liệu chiến dịch: <code>GD_PERIOD_FACTOR = số ngày / 30</code> (nhân dòng chảy); <code>GD_EFF</code> điều chỉnh nhẹ tỷ lệ; CAC &amp; thời gian nhân nghịch.</li>
+      </ul>
+      <div class="callout"><b>Lưu ý thiết kế:</b> 8 tab dữ liệu đổi theo kỳ; 4 tab tham chiếu (Chiến lược, Thị trường, Cài đặt, Sơ đồ &amp; Hướng dẫn) cố ý <b>không</b> đổi (số là mục tiêu/định nghĩa cố định).</div>
+      <h4>Khối UI lặp lại &amp; tooltip 4 lớp</h4>
+      <p><b>Dải KPI</b> (icon · giá trị · xu hướng · sparkline) · <b>Value Health gauge</b> (đồng hồ 0–100) · <b>Chỉ báo &amp; Lưu ý</b> (ô tín hiệu xanh/cam/đỏ). Rê chuột vào biểu tượng <b>ⓘ</b> để xem 4 lớp: <b>Ý nghĩa · Cách tính · Công thức · Biến động</b> — mọi chỉ số đều minh bạch.</p>
+    </section>
+
+    <!-- ===================== 3 RBAC ===================== -->
+    <section class="sec" id="rbac">
+      <div class="kicker">03 · Tài khoản</div>
+      <h2>Đăng nhập, tài khoản &amp; phân quyền</h2>
+      <p>Hệ thống <b>khởi đầu sạch</b> — chỉ có một tài khoản quản trị cao nhất: <b>CEO</b>. Mọi tài khoản khác do CEO tạo &amp; kích hoạt.</p>
+      <div class="card">
+        <div class="step"><div class="n">1</div><div class="b"><b>Đăng nhập CEO mặc định</b><code>ceo@ot-growth.com</code> / <code>gos123</code> → vào thẳng dashboard.</div></div>
+        <div class="step"><div class="n">2</div><div class="b"><b>Đổi email &amp; mật khẩu của mình</b>Cài đặt → Phân quyền Thành viên → dòng của bạn → <b>Sửa</b>.</div></div>
+        <div class="step"><div class="n">3</div><div class="b"><b>Thêm thành viên</b>+ Thêm thành viên mới → nhập Họ tên · Email (<code>@ot-growth.com</code>) · Phòng ban · Vai trò · Mật khẩu → tạo ở trạng thái <b>Khóa</b>.</div></div>
+        <div class="step"><div class="n">4</div><div class="b"><b>Kích hoạt</b>Bấm <b>Kích hoạt</b> để thành viên đăng nhập được. Tài khoản CEO luôn ở trạng thái Không khóa.</div></div>
+      </div>
+      <div class="callout tip">Vai trò quyết định tab được cấp (xem bảng ở mục Tổng quan). Mọi thao tác RBAC được ghi vào <b>Nhật ký Hoạt động</b>.</div>
+    </section>
+
+    <!-- ===================== 4 · 12 MODULES ===================== -->
+    <section class="sec" id="modules">
+      <div class="kicker">04 · Hướng dẫn chi tiết</div>
+      <h2>12 Module — chi tiết từng tab</h2>
+      <p>Mỗi module: <b>Mục đích · Sub-tab · Thành phần chính · Chỉ số &amp; công thức · Tương tác · Ví dụ</b>.</p>
+
+      <div class="mod" id="m-overview"><div class="mh"><span class="ic"><i data-lucide="layout-dashboard"></i></span><div><h3>Tổng quan (Overview)</h3><span class="role">Cho: CEO · CMO · Growth Lead</span></div></div>
+        <p><b>Mục đích:</b> ảnh chụp nhanh sức khỏe doanh nghiệp hằng ngày; nơi bắt đầu mỗi phiên.</p>
+        <p><b>Thành phần:</b> North Star Metric (cây chỉ số <code>NSM = Kích hoạt × FTD × Giữ chân × Tần suất</code>) · Persona View (4 ô: sức khỏe · nguyên nhân · rủi ro · đề xuất AI) · dải KPI (Doanh thu, KYC, LTV/CAC, CAC/KYC, ROAS) · <b>Growth Health gauge</b> · biểu đồ Spend/Revenue/KYC · phễu chuyển đổi · cohort giữ chân · phân bổ ngân sách · Trung tâm Cảnh báo (mô phỏng CPA Spike).</p>
+        <p><b>Chỉ số:</b> Growth Health (5 chiều có trọng số), LTV/CAC, ROAS, tỷ lệ chuyển đổi từng bước phễu.</p>
+        <p><b>Ví dụ:</b> Sáng xem Health + KPI → nếu CAC/KYC ▲ bất thường, mở phễu để tìm bước nghẽn.</p>
+      </div>
+
+      <div class="mod" id="m-customer"><div class="mh"><span class="ic"><i data-lucide="users"></i></span><div><h3>Khách hàng (Customer)</h3><span class="role">Cho: Product Manager · Growth</span></div></div>
+        <p><b>Mục đích:</b> phân tích phân khúc, cohort, LTV, dự báo churn/whale, hành trình đa kênh.</p>
+        <p><b>Sub-tab:</b> <b>Phân khúc &amp; KPIs</b> (dải KPI + Value Health + Chỉ báo + ICP) · <b>Cohorts &amp; LTV</b> (đường cong sống sót, ma trận D1–D90, LTV tích lũy) · <b>Dự báo &amp; Churn</b> (nhập <code>Customer_ID</code> → xác suất Whale/Churn + chiến lược AI) · <b>Cơ sở Dữ liệu &amp; Event Stream</b> (trình khám phá 360°, tìm/lọc/xuất CSV) · <b>Hành trình</b> (sơ đồ · ma trận dịch chuyển · phễu di cư · 5 mô hình phân bổ).</p>
+        <p><b>Chỉ số:</b> Whale Flag (Deposit ≥ $5,000) · Segment (Whale/Core/Casual/Dormant/New) · Cohort Survival % = Users hoạt động ngày t ÷ Users ban đầu × 100%.</p>
+        <p><b>Ví dụ:</b> Nhập <code>CUST-0007</code> → xác suất Whale cao → đưa vào chăm sóc VIP.</p>
+      </div>
+
+      <div class="mod" id="m-product"><div class="mh"><span class="ic"><i data-lucide="smartphone"></i></span><div><h3>Sản phẩm (Product)</h3><span class="role">Cho: Product Manager</span></div></div>
+        <p><b>Mục đích:</b> đo gắn kết sản phẩm, phễu kích hoạt, điểm ma sát UX, vòng lặp lan truyền.</p>
+        <p><b>Sub-tab:</b> <b>Chỉ số &amp; Ma sát</b> (DAU/MAU, Stickiness, Feature Adoption, nhật ký rage/dead-click) · <b>Phễu Kích hoạt</b> (Install→Register→KYC→FTD, Session Replay, iOS vs Android, Aha Moment) · <b>Hệ số Lan truyền</b> (Referral Rate, K-Factor, Growth Loops).</p>
+        <p><b>Chỉ số:</b> Stickiness = DAU/MAU × 100% · K-Factor = Invite Rate × TB(tỷ lệ chuyển đổi vòng lặp) × hệ số virality (K>0.5 tốt, >1 cấp số nhân) · Activation Rate = Users kích hoạt ÷ signup mới × 100%.</p>
+        <p><b>Ví dụ:</b> <code>form_abandon</code> cao ở OTP → mở Session Replay để chẩn đoán.</p>
+      </div>
+
+      <div class="mod" id="m-ads"><div class="mh"><span class="ic"><i data-lucide="compass"></i></span><div><h3>Quảng cáo (Acquisition)</h3><span class="role">Cho: CMO · Growth Lead</span></div></div>
+        <p><b>Mục đích:</b> hiệu suất kênh quảng cáo, phân bổ đa điểm chạm, chất lượng tracking UTM.</p>
+        <p><b>Sub-tab:</b> Hiệu suất Chiến dịch · Mô hình Phân bổ · Cấu trúc UTM · Sức khỏe UTM.</p>
+        <p><b>Thành phần:</b> dải KPI (Blended CAC, ROAS, ROI ròng, Chi tiêu Ads, Best Channel ROI, Tỷ trọng Paid) · ma trận phân bổ theo mô hình · so sánh Paid vs Blended CAC · checklist/validator UTM.</p>
+        <p><b>Chỉ số:</b> Blended CAC = Tổng chi ÷ Tổng KYC · ROAS = Doanh thu ÷ Chi (≥3.0x khỏe) · Data Quality Rate = sự kiện hợp lệ ÷ tổng × 100% (&lt;95% là "nợ tracking").</p>
+        <p><b>Ví dụ:</b> So First-touch vs Last-touch → nếu Last-touch "ăn" hết công kênh cuối phễu, tăng ngân sách kênh đầu phễu.</p>
+      </div>
+
+      <div class="mod" id="m-content"><div class="mh"><span class="ic"><i data-lucide="file-text"></i></span><div><h3>Nội dung (Content)</h3><span class="role">Cho: Creative · CMO</span></div></div>
+        <p><b>Mục đích:</b> vòng đời sáng tạo, hiệu suất hook/thông điệp, vận hành sản xuất nội dung.</p>
+        <p><b>Sub-tab:</b> Hiệu suất Sáng tạo (mặc định) · KPI &amp; Khung đo lường · Thử nghiệm &amp; Đánh giá Creative.</p>
+        <p><b>Thành phần:</b> dải KPI (Hook Rate 3s, CTR, CVR, AI Creative Score, Active Creatives, Fatigue) + Value Health "Sức khỏe Creative" · Win/Loss · Message-Market Fit Matrix · Hook Intelligence · retention video &amp; drop-off · Frequency × CVR Decay · lịch xuất bản · backlog ICE.</p>
+        <p><b>Chỉ số:</b> Hook Rate = lượt xem 3s ÷ Impressions × 100% (≥30% tốt) · Fatigue Index (tần suất × suy giảm CVR) · Creative ROI = Doanh thu ÷ Chi phí sản xuất.</p>
+        <p><b>Ví dụ:</b> Fatigue = 4 ads → Frequency Decay → ad >4.0x tần suất thì làm mới.</p>
+      </div>
+
+      <div class="mod" id="m-exp"><div class="mh"><span class="ic"><i data-lucide="beaker"></i></span><div><h3>Thí nghiệm (Experiments)</h3><span class="role">Cho: Growth · PM</span></div></div>
+        <p><b>Mục đích:</b> pipeline A/B theo ICE, tốc độ học hỏi, tự động hóa vòng đời, VoC, kho SOP.</p>
+        <p><b>Sub-tab:</b> Backlog (ICE) · Lifecycle Automation · Ý kiến Khách hàng (VoC) · Kho SOP &amp; Playbooks.</p>
+        <p><b>Thành phần:</b> KPI Velocity &amp; Win Rate · Learning Repository · bảng pipeline ICE · <b>Incrementality Lab</b> (máy tính Lift) · journey email/push · NPS/CSAT + sentiment · thư viện SOP/Playbook.</p>
+        <p><b>Chỉ số:</b> ICE = Impact × Confidence × Ease · Incremental Lift = (CVR_test − CVR_control) ÷ CVR_control × 100% (>20% đáng kể) · NPS = %Promoters − %Detractors.</p>
+        <p><b>Ví dụ:</b> Trước khi nhân rộng, vào Incrementality Lab xác minh tác động thật.</p>
+      </div>
+
+      <div class="mod" id="m-strategy"><div class="mh"><span class="ic"><i data-lucide="trending-up"></i></span><div><h3>Chiến lược (Strategy)</h3><span class="role">Tab tham chiếu — không đổi theo kỳ</span></div></div>
+        <p><b>Mục đích:</b> định vị giai đoạn tăng trưởng, ưu tiên 3/6/12 tháng, điểm nghẽn, AI Copilot.</p>
+        <p><b>Sub-tab:</b> Strategy Board · AI Growth Copilot (kèm nút "Áp dụng Đề xuất") · Early Warning Radar (Churn Risk, CAC Spike, Cash Runway, Team Bottlenecks).</p>
+        <p><b>Chỉ số:</b> Constraint Index = tỷ lệ chuyển đổi bước thấp nhất ÷ trung bình phễu · trọng số sức khỏe thay đổi theo giai đoạn (Pre-PMF ưu tiên Retention).</p>
+      </div>
+
+      <div class="mod" id="m-market"><div class="mh"><span class="ic"><i data-lucide="globe"></i></span><div><h3>Thị trường (Market)</h3><span class="role">Tab tham chiếu — không đổi theo kỳ</span></div></div>
+        <p><b>Mục đích:</b> quy mô thị trường (TAM/SAM/SOM), xu hướng tìm kiếm, đối thủ, SWOT.</p>
+        <p><b>Sub-tab:</b> Quy mô Thị trường &amp; Quốc gia · Theo dõi Đối thủ (CRUD) · SWOT Engine (2×2).</p>
+        <p><b>Chỉ số:</b> TAM = số khách tiềm năng × chi tiêu TB/năm · SOV% = hiển thị của ta ÷ tổng ngành × 100% · Opportunity Score = Dân số×0.3 + GDP×0.3 + Độ chín số×0.4.</p>
+      </div>
+
+      <div class="mod" id="m-capital"><div class="mh"><span class="ic"><i data-lucide="calculator"></i></span><div><h3>Tài chính (Capital)</h3><span class="role">Cho: CFO · CEO · Growth</span></div></div>
+        <p><b>Mục đích:</b> dự báo kịch bản vĩ mô, tối ưu ngân sách, payback theo kênh, sức khỏe vốn.</p>
+        <p><b>Sub-tab:</b> Dự báo Vĩ mô &amp; Kịch bản · Tối ưu hóa Ngân sách.</p>
+        <p><b>Thành phần:</b> Capital Health gauge · dải KPI phân bổ vốn · biểu đồ Bear/Base/Bull · kịch bản địa chính trị · lịch kinh tế (LIVE) · đường cong bão hòa · bộ máy phân bổ ngân sách · Payback &amp; Break-even · mô phỏng tái phân bổ.</p>
+        <p><b>Chỉ số:</b> Runway = Tiền mặt ÷ chi phí ròng/tháng · Payback Month = tháng đầu Doanh thu tích lũy ≥ CAC · Marginal CAC = ΔSpend ÷ ΔFTD.</p>
+        <p><b>Ví dụ:</b> Kéo +$25k, bật "Cap TikTok &lt;$15k" → bộ máy đề xuất phân bổ tối ưu + doanh thu tăng thêm.</p>
+      </div>
+
+      <div class="mod" id="m-team"><div class="mh"><span class="ic"><i data-lucide="users-2"></i></span><div><h3>Đội ngũ (Team Ops)</h3><span class="role">Cho: Quản lý vận hành</span></div></div>
+        <p><b>Mục đích:</b> hiệu suất đội ngũ, công việc, nguồn lực, OKR, sự cố.</p>
+        <p><b>Sub-tab:</b> Dashboard Bộ phận · Công việc &amp; RACI (Kanban) · Vận hành Thiết kế · Điều phối &amp; Nguồn lực · Hiệu suất &amp; Sức khỏe (OKR) · Xử lý Sự cố.</p>
+        <p><b>Chỉ số:</b> RACI Workload = #task R × 1 + #task A × 1.5 · Capacity Utilization = Giờ cần ÷ Giờ khả dụng × 100% (tối ưu 80–85%) · MTTR = tổng thời gian khắc phục ÷ số sự cố · OKR Progress = TB tiến độ Key Results.</p>
+      </div>
+
+      <div class="mod" id="m-gov"><div class="mh"><span class="ic"><i data-lucide="settings"></i></span><div><h3>Cài đặt (Governance)</h3><span class="role">Chỉ CEO/Admin</span></div></div>
+        <p><b>Mục đích:</b> cấu hình, metadata/công thức, benchmark ngành, audit log, quản trị RBAC.</p>
+        <p><b>Sub-tab:</b> Cấu hình Hệ thống (18 tham số) · Điểm chuẩn Ngành · Nhật ký Hoạt động · Phân quyền Thành viên.</p>
+        <p><b>Thành phần:</b> Trung tâm cấu hình (trọng số/ngưỡng/benchmark/tỷ phí/tiền tệ — bấm Apply &amp; Save) · Metadata &amp; Formula Repository · Industry Benchmarking · Audit Logs · bảng RBAC + modal Thêm/Sửa + Kích hoạt/Khóa.</p>
+        <div class="callout warn">Tổng 5 trọng số sức khỏe phải = <b>1.00</b>, nếu không hệ thống không lưu.</div>
+      </div>
+
+      <div class="mod" id="m-guide"><div class="mh"><span class="ic"><i data-lucide="workflow"></i></span><div><h3>Sơ đồ &amp; Hướng dẫn (Data Guide)</h3><span class="role">Cho: mọi người</span></div></div>
+        <p><b>Mục đích:</b> trực quan hóa "dữ liệu → thành phần", công cụ Import/Export hàng loạt, prompt AI.</p>
+        <p><b>Thành phần:</b> System Diagram (AARRR, bấm ô để nhảy tới thành phần) · Data Input Guide (Thành phần · Vị trí · Khóa dữ liệu · Trường · Ví dụ) · Trung tâm Import/Export &amp; AI Prompt (xem mục Nhập liệu).</p>
+      </div>
+    </section>
+
+    <!-- ===================== 5 DATA ===================== -->
+    <section class="sec" id="data">
+      <div class="kicker">05 · Tùy biến — Nhập liệu</div>
+      <h2>Nhập liệu chuyên sâu</h2>
+      <p>Tệp <code>data/data.js</code> khai báo đối tượng <code>window.GrowthData</code>; app đọc vào biến <code>db</code> rồi tính toán. Thay 2 mảng <code>customers</code> &amp; <code>campaigns</code> bằng dữ liệu thật (giữ đúng tên trường) là toàn bộ dashboard tự tính lại.</p>
+      <pre><code>window.GrowthData = (() => {
+  const configs   = { thresholds:{…}, weights:{…}, benchmarks:{…}, rates:{…}, currency:"USD" };
+  const campaigns = [ { Campaign_ID:"M-01", Channel:"Meta Ads", Spend:32000, … }, … ];
+  const customers = [ { Customer_ID:"CUST-0001", Install_Date:"2026-05-01", … }, … ];
+  return { configs, campaigns, customers, /* … */ };
+})();</code></pre>
+
+      <h3>3 cách thay dữ liệu</h3>
+      <div class="card">
+        <div class="step"><div class="n">A</div><div class="b"><b>Trung tâm Import/Export (khuyên dùng, không cần code)</b>Sơ đồ &amp; Hướng dẫn → chọn dataset + JSON/CSV → <b>Xuất ra ô dưới</b> (lấy mẫu) → sửa → <b>Lưu vào trình duyệt</b> (giữ qua F5). Có "Tải file" / "Chọn file" / kéo-thả.</div></div>
+        <div class="step"><div class="n">B</div><div class="b"><b>Sửa trực tiếp <code>data/data.js</code></b>Đóng gói dữ liệu vào sản phẩm (ai mở cũng thấy) — thay nội dung mảng, giữ đúng tên trường.</div></div>
+        <div class="step"><div class="n">C</div><div class="b"><b>Nhờ AI sinh dữ liệu</b>Bấm "Prompt cho AI" → đưa cho ChatGPT/Claude → dán JSON kết quả vào ô → Nhập.</div></div>
+      </div>
+      <div class="callout warn"><b>"Nhập (phiên)" vs "Lưu vào trình duyệt":</b> để giữ dữ liệu sau khi tải lại trang, luôn dùng <b>Lưu vào trình duyệt</b>. Muốn về gốc → "Khôi phục mặc định" → F5.</div>
+
+      <h3>Tham chiếu trường — <code>db.customers</code></h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>Trường</th><th>Kiểu</th><th>Mô tả</th></tr>
+        <tr><td><code>Customer_ID</code></td><td><span class="tag str">String</span></td><td>Mã duy nhất <code>CUST-XXXX</code></td></tr>
+        <tr><td><code>Install_Date</code></td><td><span class="tag str">String</span></td><td><code>YYYY-MM-DD</code> — dùng lọc theo kỳ</td></tr>
+        <tr><td><code>KYC_Date</code> / <code>FTD_Date</code></td><td><span class="tag str">String</span></td><td>hoặc <code>"None"</code></td></tr>
+        <tr><td><code>Country</code> / <code>Device</code> / <code>Source</code></td><td><span class="tag str">String</span></td><td>Quốc gia · iOS/Android · kênh thu hút</td></tr>
+        <tr><td><code>Revenue</code> / <code>Deposit</code> / <code>FTD_Volume</code> / <code>LTV</code></td><td><span class="tag num">Number</span></td><td>USD</td></tr>
+        <tr><td><code>TradeVolume</code> / <code>Trade_Count</code></td><td><span class="tag num">Number</span></td><td>Khối lượng &amp; số giao dịch</td></tr>
+        <tr><td><code>Whale_Flag</code></td><td><span class="tag str">String</span></td><td>"Yes" nếu Deposit ≥ $5,000</td></tr>
+        <tr><td><code>Segment</code> / <code>Retention_Status</code></td><td><span class="tag str">String</span></td><td>Whale/Core/… · Active/At Risk/Churned</td></tr>
+        <tr><td><code>AssetsViewed</code> / <code>VideosWatched</code> / <code>WatchTime</code> / <code>SessionFrequency</code></td><td><span class="tag num">Number</span></td><td>Hành vi tương tác</td></tr>
+      </table></div>
+
+      <h3>Tham chiếu trường — <code>db.campaigns</code></h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>Trường</th><th>Kiểu</th><th>Mô tả</th></tr>
+        <tr><td><code>Campaign_ID</code> / <code>Channel</code></td><td><span class="tag str">String</span></td><td>Mã chiến dịch · kênh</td></tr>
+        <tr><td><code>Spend</code> / <code>CreativeSpend</code> / <code>ToolSpend</code></td><td><span class="tag num">Number</span></td><td>Chi quảng cáo / sản xuất / công cụ</td></tr>
+        <tr><td><code>Impression</code> / <code>Click</code> / <code>Install</code> / <code>KYC</code></td><td><span class="tag num">Number</span></td><td>Phễu hiệu suất</td></tr>
+        <tr><td><code>Revenue</code> / <code>ROI</code> / <code>CAC</code> / <code>LTV</code></td><td><span class="tag num">Number</span></td><td>Kết quả tài chính</td></tr>
+      </table></div>
+      <div class="callout">Khi Nhập/Lưu, hệ thống <b>kiểm tra schema</b>; thiếu trường bắt buộc sẽ báo lỗi và không ghi đè. JSON: số không nháy, chuỗi trong nháy kép. Mọi lần Nhập đều ghi Audit Log.</div>
+    </section>
+
+    <!-- ===================== 6 CONFIG ===================== -->
+    <section class="sec" id="config">
+      <div class="kicker">06 · Tùy biến — Thông số</div>
+      <h2>Thông số &amp; cấu hình (18 tham số)</h2>
+      <p>Vào <b>Cài đặt → Cấu hình Hệ thống</b>, chỉnh rồi bấm <b>Apply &amp; Save</b>. Mặc định nằm trong <code>data.js → configs</code>.</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Nhóm</th><th>Tham số (ID)</th><th>Mặc định</th><th>Cách chỉnh cho bạn</th></tr>
+        <tr><td rowspan="5"><b>Sức khỏe</b></td><td>Growth <code>cfg-w-growth</code></td><td>0.25</td><td>Tăng nếu ưu tiên scale</td></tr>
+        <tr><td>Profitability <code>cfg-w-profit</code></td><td>0.20</td><td>Tăng nếu ưu tiên hiệu quả</td></tr>
+        <tr><td>Retention <code>cfg-w-retention</code></td><td>0.20</td><td>Tăng cao ở Pre-PMF</td></tr>
+        <tr><td>Capital Eff. <code>cfg-w-capeff</code></td><td>0.20</td><td>Hiệu quả vốn (payback)</td></tr>
+        <tr><td>Risk <code>cfg-w-risk</code></td><td>0.15</td><td><b>Tổng 5 = 1.00</b></td></tr>
+        <tr><td rowspan="5"><b>Marketing</b></td><td>CAC Surge % <code>cfg-t-cac</code></td><td>30</td><td>Hạ nếu kiểm soát chi phí chặt</td></tr>
+        <tr><td>Target LTV/CAC <code>cfg-bm-ltvcac</code></td><td>3.5</td><td>Chuẩn ngành ≥ 3.0</td></tr>
+        <tr><td>Target ROI <code>cfg-bm-roi</code></td><td>1.5</td><td>ROI ròng mục tiêu</td></tr>
+        <tr><td>eKYC $/user <code>cfg-rate-ekyc</code></td><td>0.25</td><td>Theo nhà cung cấp</td></tr>
+        <tr><td>SMS $/SMS <code>cfg-rate-sms</code></td><td>0.08</td><td>Theo nhà mạng</td></tr>
+        <tr><td rowspan="5"><b>Product</b></td><td>Whale Limit % <code>cfg-t-whale</code></td><td>40</td><td>Ngưỡng tập trung Whale</td></tr>
+        <tr><td>Target CVR <code>cfg-bm-cvr</code></td><td>0.35</td><td>Mục tiêu chuyển đổi</td></tr>
+        <tr><td>Target CAC/KYC <code>cfg-bm-cackyc</code></td><td>15</td><td>Chi phí/KYC mục tiêu</td></tr>
+        <tr><td>CVR Drop % <code>cfg-t-cvr</code></td><td>15</td><td>Ngưỡng cảnh báo CVR giảm</td></tr>
+        <tr><td>Retention Drop % <code>cfg-t-ret</code></td><td>10</td><td>Ngưỡng giữ chân giảm</td></tr>
+        <tr><td rowspan="3"><b>Vận hành</b></td><td>Revenue Drop % <code>cfg-t-rev</code></td><td>20</td><td>Ngưỡng doanh thu giảm</td></tr>
+        <tr><td>Negative ROI % <code>cfg-t-roineg</code></td><td>0</td><td>Ngưỡng ROI âm</td></tr>
+        <tr><td>Currency <code>cfg-currency</code></td><td>USD</td><td>Đổi sang VND nếu cần</td></tr>
+      </table></div>
+      <div class="callout tip">Sau khi đổi benchmark, mở <b>Cài đặt → Điểm chuẩn Ngành</b> để xem chỉ số của bạn so với chuẩn (Δ% + màu).</div>
+    </section>
+
+    <!-- ===================== 7 BRANDING ===================== -->
+    <section class="sec" id="branding">
+      <div class="kicker">07 · Tùy biến — Thương hiệu</div>
+      <h2>Biến thành thương hiệu của bạn</h2>
+      <div class="tbl-wrap"><table>
+        <tr><th>Hạng mục</th><th>Sửa ở đâu</th></tr>
+        <tr><td>Tên thương hiệu ("GROWTH OS"/"GOS By OT")</td><td><code>index.html</code> — thẻ <code>&lt;span&gt;GROWTH OS&lt;/span&gt;</code> &amp; <code>brand-subtitle</code></td></tr>
+        <tr><td>Logo</td><td><code>index.html</code> — khối <code>&lt;svg&gt;</code> trong <code>brand-logo</code></td></tr>
+        <tr><td>Màu thương hiệu</td><td><code>style.css</code> — biến <code>--purple</code> ở đầu tệp</td></tr>
+        <tr><td>Nhãn chữ &amp; ngưỡng KPI</td><td>Trong app: nút <b>Tùy chỉnh</b> (không cần code)</td></tr>
+        <tr><td>Tài khoản CEO gốc</td><td><code>app.js</code> — mảng <code>DEFAULT_ACCOUNTS</code></td></tr>
+        <tr><td>Domain email (<code>@ot-growth.com</code>)</td><td><code>app.js</code> — ràng buộc domain khi thêm thành viên</td></tr>
+        <tr><td>Tiền tệ</td><td>Cài đặt → <code>cfg-currency</code></td></tr>
+      </table></div>
+      <div class="callout warn">Sau khi đổi tài khoản gốc &amp; domain, đăng nhập lại bằng CEO mới. Nếu còn lưu tài khoản cũ, xóa <b>site-data</b> một lần để về khởi đầu sạch.</div>
+    </section>
+
+    <!-- ===================== 8 WORKFLOW ===================== -->
+    <section class="sec" id="workflow">
+      <div class="kicker">08 · Vận hành</div>
+      <h2>Luồng thao tác chuẩn</h2>
+      <p><code>Đăng nhập → Tổng quan (đọc sức khỏe) → chọn module → lọc/tìm → mở chi tiết → hành động → phản hồi</code></p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Nhịp</th><th>CEO</th><th>Growth/CMO</th><th>Product/Creative</th></tr>
+        <tr><td>Hằng ngày</td><td>Tổng quan: Health, Alerts</td><td>Quảng cáo: CAC/ROAS</td><td>Sản phẩm: ma sát; Nội dung: Fatigue</td></tr>
+        <tr><td>Hằng tuần</td><td>Chiến lược: Copilot, Radar</td><td>Thí nghiệm: chốt ICE</td><td>Khách hàng: cohort</td></tr>
+        <tr><td>Hằng tháng</td><td>Tài chính: kịch bản, runway</td><td>Tài chính: tối ưu ngân sách</td><td>Đội ngũ: OKR, Capacity</td></tr>
+      </table></div>
+    </section>
+
+    <!-- ===================== 9 USE CASES ===================== -->
+    <section class="sec" id="usecase">
+      <div class="kicker">09 · Thực tế</div>
+      <h2>Use Cases</h2>
+      <div class="grid2">
+        <div class="card"><b>UC-1 · Onboard thành viên</b><p style="font-size:13.5px">Cài đặt → +Thêm (email, vai trò) → Kích hoạt → gửi mật khẩu → thành viên đăng nhập, chỉ thấy tab được cấp.</p></div>
+        <div class="card"><b>UC-2 · CAC tăng đột biến</b><p style="font-size:13.5px">Tổng quan thấy CAC ▲ → Quảng cáo (so mô hình phân bổ) → Tài chính (Reallocation Simulator) chuyển ngân sách → áp dụng.</p></div>
+        <div class="card"><b>UC-3 · Giữ chân Whale</b><p style="font-size:13.5px">Khách hàng → Dự báo &amp; Churn (nhập ID) → đọc tín hiệu + chiến lược AI → kích hoạt journey win-back.</p></div>
+        <div class="card"><b>UC-4 · Creative "chai"</b><p style="font-size:13.5px">Nội dung thấy Fatigue=4 → Frequency Decay → ad >4.0x → tạo ý tưởng mới ICE → lịch xuất bản.</p></div>
+        <div class="card"><b>UC-5 · Xác minh thử nghiệm</b><p style="font-size:13.5px">Thí nghiệm → Incrementality Lab nhập CVR test/control → Lift &gt; 20% &amp; iCPA &lt; CAC nền → nhân rộng.</p></div>
+        <div class="card"><b>UC-6 · Cập nhật dữ liệu</b><p style="font-size:13.5px">Sơ đồ &amp; Hướng dẫn → chọn Chiến dịch → Xuất → sửa → Lưu vào trình duyệt → mở lại tab xem.</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== 10 TROUBLE ===================== -->
+    <section class="sec" id="trouble">
+      <div class="kicker">10 · Hỗ trợ</div>
+      <h2>Mẹo, lỗi thường gặp &amp; xử lý sự cố</h2>
+      <div class="tbl-wrap"><table>
+        <tr><th>Tình huống</th><th>Cách xử lý</th></tr>
+        <tr><td>Thành viên không đăng nhập được</td><td>Tài khoản chưa kích hoạt → Cài đặt → Kích hoạt</td></tr>
+        <tr><td>Lưu cấu hình không được</td><td>Tổng 5 trọng số phải = 1.00</td></tr>
+        <tr><td>Nhập dữ liệu báo lỗi</td><td>Thiếu trường/sai định dạng → đối chiếu schema hoặc dùng "Prompt cho AI"</td></tr>
+        <tr><td>Dữ liệu mất sau F5</td><td>Dùng "Lưu vào trình duyệt" thay vì "Nhập (phiên)"</td></tr>
+        <tr><td>Trang trắng / không tải</td><td>Kiểm tra <code>python3 serve.py</code>; có <code>data/data.js</code></td></tr>
+        <tr><td>Vẫn thấy tài khoản mẫu cũ</td><td>Xóa site-data trình duyệt một lần (khởi đầu sạch)</td></tr>
+        <tr><td>Biểu đồ/icon không hiện</td><td>Cần internet (Chart.js &amp; icon từ CDN); tải lại trang</td></tr>
+        <tr><td>Vài tab "không đổi theo thời gian"</td><td>Là tab tham chiếu (cố ý) — không phải lỗi</td></tr>
+      </table></div>
+      <div class="callout tip">Kiểm thử kỹ thuật: chạy <code>./run_tests.sh</code> (bộ JXA, kỳ vọng <b>5/5 PASS</b>).</div>
+    </section>
+
+    <!-- ===================== 11 REF ===================== -->
+    <section class="sec" id="ref">
+      <div class="kicker">11 · Tham khảo</div>
+      <h2>Cấu trúc dữ liệu &amp; công thức cốt lõi</h2>
+      <div class="tbl-wrap"><table>
+        <tr><th>Chỉ số</th><th>Công thức</th></tr>
+        <tr><td>Growth Health</td><td>Σ(điểm × trọng số) — 5 chiều: Growth, Profit, Retention, CapEff, Risk (clamp 5–100%)</td></tr>
+        <tr><td>Value Health</td><td>Doanh thu tích lũy ÷ Deposit tích lũy × 100% (tối đa 100%)</td></tr>
+        <tr><td>Customer Health</td><td>(Active + 0.5 × At-Risk) ÷ Tổng khách trong kỳ × 100%</td></tr>
+        <tr><td>K-Factor</td><td>Invite Rate × TB(tỷ lệ chuyển đổi vòng lặp) × Hệ số virality</td></tr>
+        <tr><td>ICE Score</td><td>Impact × Confidence × Ease</td></tr>
+        <tr><td>LTV / CAC</td><td>Σ Revenue ÷ Σ Spend (theo phân bổ chiến dịch)</td></tr>
+        <tr><td>Payback (tháng)</td><td>Tháng đầu tiên mà Doanh thu tích lũy ≥ CAC</td></tr>
+        <tr><td>Co giãn kỳ</td><td>GD_PERIOD_FACTOR = số ngày ÷ 30 (nhân dòng chảy)</td></tr>
+      </table></div>
+      <h4>Khóa localStorage</h4>
+      <p style="font-size:13.5px;color:var(--t2)"><code>gd_rbac_accounts</code> (tài khoản) · <code>gd_rbac_account_states</code> (kích hoạt/khóa) · <code>gd_user_*</code> (phiên) · <code>meu_growth_overrides</code> (dữ liệu đã "Lưu vào trình duyệt").</p>
+    </section>
+
+    <footer>
+      <b>GOS — Playbook toàn diện · Miễn phí từ OT Growth.</b> Tài liệu này gộp: video hướng dẫn + hướng dẫn 12 module + cẩm nang tùy biến (nhập liệu · thông số · thương hiệu).<br>
+      Tải mẫu và mã nguồn từ GitHub: <a href="https://github.com/ttthoa2205-create/GOS---Free-model" target="_blank">https://github.com/ttthoa2205-create/GOS---Free-model</a> · Bản markdown đọc nhanh: <a href="PLAYBOOK.md">PLAYBOOK.md</a> · Hướng dẫn dữ liệu: <a href="data/data_flow_guide.md">data_flow_guide.md</a>.<br>
+      Bản mẫu miễn phí cho mọi người từ OT Growth — chỉnh sửa &amp; phát triển thành ứng dụng riêng của doanh nghiệp bạn.
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  /* ---------- video player ---------- */
+  var SCENES=[
+    {t:"Bước 1 — Đăng nhập hệ thống",d:"Mở app và đăng nhập bằng tài khoản CEO mặc định (ceo@ot-growth.com / gos123).",ch:"Đăng nhập"},
+    {t:"Bước 2 — Đọc Tổng quan trong 5 giây",d:"Xem Growth Health và dải KPI: Doanh thu, KYC, LTV/CAC, ROAS.",ch:"Tổng quan"},
+    {t:"Bước 3 — Đổi kỳ thời gian",d:"Chọn 7–365 ngày; số liệu tự co giãn theo kỳ.",ch:"Thời gian"},
+    {t:"Bước 4 — Đi sâu từng module",d:"Vào tab (vd Quảng cáo) để xem CAC, ROAS, kênh hiệu quả nhất.",ch:"Module"},
+    {t:"Bước 5 — Hiểu mọi chỉ số",d:"Rê chuột vào ⓘ: Ý nghĩa · Cách tính · Công thức · Biến động.",ch:"Tooltip"},
+    {t:"Bước 6 — Nạp dữ liệu của bạn",d:"Sơ đồ & Hướng dẫn → Import/Export → Lưu vào trình duyệt.",ch:"Nhập liệu"},
+    {t:"Bước 7 — Quản lý đội ngũ",d:"CEO tạo & kích hoạt tài khoản thành viên ở tab Cài đặt.",ch:"Tài khoản"},
+    {t:"Hoàn tất 🎉",d:"Cuộn xuống để đọc hướng dẫn chi tiết từng phần.",ch:"Kết"}
+  ];
+  var DUR=5200, scenes=[].slice.call(document.querySelectorAll('.scene')), i=0, playing=false, t0=0, raf=null;
+  var subT=document.getElementById('subT'),subD=document.getElementById('subD'),badge=document.getElementById('badgeNum'),
+      fillbar=document.getElementById('fillbar'),time=document.getElementById('time'),icPlay=document.getElementById('icPlay'),icPause=document.getElementById('icPause');
+  var dotsWrap=document.getElementById('dots');
+  SCENES.forEach(function(s,idx){var d=document.createElement('button');d.className='dot';d.innerHTML='<i>'+(idx+1)+'</i>'+s.ch;d.onclick=function(){pause();go(idx);};dotsWrap.appendChild(d);});
+  var dots=[].slice.call(dotsWrap.children);
+  function render(){scenes.forEach(function(s,idx){s.classList.toggle('active',idx===i);});dots.forEach(function(d,idx){d.classList.toggle('on',idx===i);});subT.textContent=SCENES[i].t;subD.textContent=SCENES[i].d;badge.textContent=(i>6?7:i+1);time.textContent=(i+1)+' / '+SCENES.length;}
+  function go(idx){i=((idx%SCENES.length)+SCENES.length)%SCENES.length;t0=0;fillbar.style.width='0%';render();}
+  function tick(now){if(!playing)return;if(!t0)t0=now;var p=Math.min(1,(now-t0)/DUR);fillbar.style.width=(p*100)+'%';if(p>=1){if(i>=SCENES.length-1){pause();fillbar.style.width='100%';return;}i++;t0=now;fillbar.style.width='0%';render();}raf=requestAnimationFrame(tick);}
+  function play(){if(playing)return;if(i>=SCENES.length-1)go(0);playing=true;icPlay.style.display='none';icPause.style.display='block';t0=0;raf=requestAnimationFrame(tick);}
+  function pause(){playing=false;icPlay.style.display='block';icPause.style.display='none';if(raf)cancelAnimationFrame(raf);}
+  document.getElementById('play').onclick=function(){playing?pause():play();};
+  document.getElementById('next').onclick=function(){pause();go(i+1);};
+  document.getElementById('prev').onclick=function(){pause();go(i-1);};
+  document.getElementById('track').onclick=function(e){var r=this.getBoundingClientRect();pause();go(Math.floor((e.clientX-r.left)/r.width*SCENES.length));};
+  render();
+
+  /* ---------- TOC scrollspy ---------- */
+  try{
+    var links=[].slice.call(document.querySelectorAll('#toc a'));
+    var map={}; links.forEach(function(a){var id=a.getAttribute('href').slice(1);var el=document.getElementById(id);if(el)map[id]=a;});
+    var obs=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){links.forEach(function(l){l.classList.remove('on');});if(map[en.target.id])map[en.target.id].classList.add('on');}});},{rootMargin:'-15% 0px -75% 0px'});
+    Object.keys(map).forEach(function(id){var el=document.getElementById(id);if(el)obs.observe(el);});
+  }catch(e){}
+  
+  // Render Lucide icons
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    lucide.createIcons();
+  }
+})();
+</script>
+</body>
+</html>

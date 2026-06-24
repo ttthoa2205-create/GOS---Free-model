@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-06-22 10:15:32",
+    "user": "CEO (Hannah)",
+    "change": "Xem báo cáo tổng quan tuần 25",
+    "impact": "Không ảnh hưởng dữ liệu"
+  },
+  {
+    "timestamp": "2026-06-21 14:20:00",
+    "user": "Growth Lead",
+    "change": "Điều chỉnh ngân sách chiến dịch Meta Ads",
+    "impact": "Tăng ngân sách $5,000 cho Campaign M-02"
+  },
+  {
+    "timestamp": "2026-06-20 09:30:11",
+    "user": "Data Analyst",
+    "change": "Cập nhật trọng số Growth Health Score",
+    "impact": "Cập nhật Trọng số Rủi ro tăng từ 0.10 lên 0.15"
+  },
+  {
+    "timestamp": "2026-06-18 16:45:22",
+    "user": "CMO (Tran)",
+    "change": "Thay đổi phân bổ ngân sách dự phòng",
+    "impact": "Chuyển $2,000 từ SMS sang Push Notification"
+  }
+]

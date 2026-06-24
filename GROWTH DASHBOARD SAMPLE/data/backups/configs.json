@@ -1,0 +1,28 @@
+{
+  "thresholds": {
+    "revenueDecreasePct": 20,
+    "cacIncreasePct": 30,
+    "cvrDecreasePct": 15,
+    "retentionDecreasePct": 10,
+    "whaleConcentrationPct": 40,
+    "roiNegative": 0
+  },
+  "weights": {
+    "growth": 0.25,
+    "profitability": 0.2,
+    "retention": 0.2,
+    "capitalEfficiency": 0.2,
+    "risk": 0.15
+  },
+  "benchmarks": {
+    "targetLtvCac": 3.5,
+    "targetCvr": 0.35,
+    "targetCacKyc": 15,
+    "targetRoi": 1.5
+  },
+  "rates": {
+    "ekycRate": 0.25,
+    "smsRate": 0.08
+  },
+  "currency": "USD"
+}

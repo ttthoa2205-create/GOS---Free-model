@@ -1,0 +1,3413 @@
+/* Growth Operating System V2 - MEU Planning Engine Premium Design System Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #f1f5f9;
+  --bg-base: #f1f5f9;
+  --bg-surface: rgba(255, 255, 255, 0.45);
+  --bg-surface-elevated: rgba(255, 255, 255, 0.78);
+  --border-color: rgba(255, 255, 255, 0.72);
+  --border-color-glow: rgba(102, 85, 230, 0.25);
+  --line: rgba(255, 255, 255, 0.72);
+  --line2: rgba(255, 255, 255, 0.35);
+  
+  /* Primary Colors */
+  --purple: #6454e3;
+  --purple-soft: #ECEAFC;
+  --teal: #0E9C8A;
+  --amber: #B45309;
+  --coral: #DC2626;
+  --green: #15803D;
+  --blue: #2563eb;
+  
+  --color-primary: #15803D; /* Success Green */
+  --color-primary-glow: rgba(21, 128, 61, 0.15);
+  --color-accent: #6454e3; /* Purple */
+  --color-accent-glow: rgba(102, 85, 230, 0.15);
+  --color-danger: #dc2626; /* Coral */
+  --color-danger-glow: rgba(220, 38, 38, 0.15);
+  --color-warning: #b45309; /* Amber */
+  --color-warning-glow: rgba(180, 83, 9, 0.15);
+  --color-violet: #6454e3;
+  --color-violet-glow: rgba(102, 85, 230, 0.15);
+  
+  /* Text Colors — đã tăng độ tương phản cho chữ phụ/nhãn (WCAG AA ≥4.5:1 trên nền kính trắng) */
+  --text-main: #1A1825;
+  --text2: #443F5C;   /* darken nhẹ để chữ cấp 2 rõ hơn */
+  --text3: #56526E;   /* trước #6E6A86 (~4.7:1, hơi chìm) → ~6.8:1: nhãn/caption dễ đọc */
+  --text-muted: #56526E;
+  
+  /* Fonts & Shadows */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --shadow: 0 8px 30px rgba(31,38,135,0.02), inset 0 1px 0 rgba(255,255,255,0.8);
+  --glow-shadow: 0 0 20px rgba(102, 85, 230, 0.15);
+  --transition-smooth: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans) !important;
+}
+
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  background-color: var(--bg-base);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(100, 84, 227, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 156, 138, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.04) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Limit corner radius to 8px globally for neomorphic container elements */
+.card,
+.kpi-card,
+.verdict,
+.modal,
+.table-container,
+.db-explorer-toolbar,
+.calc-results,
+.migration-source-card,
+.config-item-box,
+.playbook-tab,
+.ai-summary-box {
+  border-radius: 8px !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(102, 85, 230, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--purple);
+}
+
+/* -------------------------------------------------------------
+   App Layout
+   ------------------------------------------------------------- */
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100vw;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 280px;
+  background: rgba(255, 255, 255, 0.35);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  backdrop-filter: blur(25px);
+  z-index: 100;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line2);
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  background: var(--purple);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 9px rgba(102,85,230,.3);
+}
+
+.brand-logo svg {
+  color: #fff;
+  width: 22px;
+  height: 22px;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text-main);
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: block;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--text2);
+  text-decoration: none;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: var(--transition-smooth);
+}
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #000000 !important;
+  box-shadow: 0 6px 14px rgba(31,38,135,0.06), inset 0 1px 0 rgba(255,255,255,0.9) !important;
+  transform: translateX(3px);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.32), inset 0 1.5px 0 rgba(255, 255, 255, 0.3) !important;
+  font-weight: 700 !important;
+}
+
+.nav-item.active svg {
+  color: #fff;
+  opacity: 1;
+}
+
+.sidebar-footer {
+  margin-top: 24px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+  flex-shrink: 0 !important;
+}
+
+.role-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.role-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8B7DF7, #2DD4BF);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(102, 85, 230, 0.25);
+}
+
+.role-text-lbl {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 600;
+}
+
+.role-text-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Sidebar Right Styling */
+.sidebar-right {
+  width: 320px;
+  background: rgba(255, 255, 255, 0.35);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  backdrop-filter: blur(25px);
+  z-index: 100;
+  flex-shrink: 0;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* Row KPI Grid */
+.row-kpi-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(195px, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 10;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.row-kpi-grid > .kpi-card { scroll-snap-align: start; }
+
+@media (max-width: 1200px) {
+  .row-kpi-grid {
+    grid-auto-columns: minmax(185px, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .row-kpi-grid {
+    grid-auto-columns: minmax(165px, 1fr);
+  }
+}
+
+/* Premium 3D-like Funnel */
+.premium-funnel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  height: 220px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.funnel-slice {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.funnel-slice:hover {
+  filter: brightness(1.15) saturate(1.1);
+  transform: scale(1.02);
+  z-index: 10;
+}
+
+.funnel-slice-label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* Growth Recommendation Card in Sidebar Right */
+.growth-rec-card {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.45));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(31, 38, 135, 0.02);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.growth-rec-card:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+  box-shadow: 0 8px 18px rgba(102, 85, 230, 0.08);
+  border-color: rgba(102, 85, 230, 0.25);
+}
+
+.growth-rec-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.growth-rec-info {
+  flex-grow: 1;
+}
+
+.growth-rec-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.growth-rec-desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+/* Main Dashboard Panel */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Top Navigation Bar */
+.topbar {
+  height: 76px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  backdrop-filter: blur(12px);
+  background: rgba(245, 246, 251, 0.82);
+  flex-shrink: 0;
+  z-index: 99;
+}
+
+.page-title-section h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Custom Select Dropdown Styling */
+.select-wrapper {
+  position: relative;
+  min-width: 140px;
+}
+
+.custom-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  transition: var(--transition-smooth);
+}
+
+.custom-select:hover, .custom-select:focus {
+  border-color: var(--purple);
+  box-shadow: var(--glow-shadow);
+  background: #fff;
+}
+
+.select-wrapper::after {
+  content: '▼';
+  font-size: 11px;
+  color: var(--text3);
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Content Frame Scrollable Area */
+.content-body {
+  flex-grow: 1;
+  padding: 32px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  min-width: 0;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+.creative-analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------------------------------------------
+   Components & Panels
+   ------------------------------------------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(1.2);
+  box-shadow: var(--shadow);
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.94);
+  transform: translateY(-3px) scale(1.012);
+  box-shadow: 0 16px 36px rgba(76,29,149,0.06), inset 0 1.5px 1px rgba(255,255,255,0.95);
+  z-index: 999 !important;
+}
+
+.card-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card h3 svg {
+  color: var(--purple);
+}
+
+.card-subtitle {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Radial / Circle Gauge component */
+.radial-gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 10px 0;
+  z-index: 10;
+}
+
+.radial-gauge {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+
+.radial-gauge svg {
+  width: 140px;
+  height: 140px;
+  transform: rotate(-90deg);
+}
+
+.radial-gauge circle {
+  fill: none;
+  stroke-width: 10;
+}
+
+.radial-gauge .bg-circle {
+  stroke: rgba(102, 85, 230, 0.07);
+}
+
+.radial-gauge .val-circle {
+  stroke: var(--purple);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease-in-out;
+  filter: drop-shadow(0 2px 5px rgba(102,85,230,0.2));
+}
+
+.radial-gauge-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text-main);
+  text-shadow: 0 0 10px var(--purple-soft);
+}
+
+.radial-gauge-label {
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text3);
+  text-align: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* KPI Scorecard Grid */
+.kpi-row-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.kpi-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.32) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  box-shadow: 0 8px 22px rgba(76,29,149,0.06), inset 0 1.5px 1px rgba(255,255,255,0.92) !important;
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+
+.kpi-card canvas {
+  max-width: 80px;
+  width: 100% !important;
+  flex-shrink: 1;
+  min-width: 40px;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px) scale(1.012) !important;
+  box-shadow: 0 16px 36px rgba(76,29,149,0.14), inset 0 1.5px 1px rgba(255,255,255,1) !important;
+  border-color: rgba(255,255,255,0.94) !important;
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpi-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 8px 0 4px 0;
+  letter-spacing: -0.5px;
+}
+
+.kpi-trend {
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.kpi-trend.up {
+  background: rgba(21, 128, 61, 0.08);
+  color: var(--green);
+}
+
+.kpi-trend.down {
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--coral);
+}
+
+.kpi-trend.neutral {
+  background: rgba(110, 106, 134, 0.08);
+  color: var(--text3);
+}
+
+/* Alert Center */
+.alert-center-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* DNA Indicator left-border accent */
+.alert-item, .dna-sig-item {
+  position: relative;
+  padding: 14px 18px 14px 22px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.56), rgba(255,255,255,0.34));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px !important;
+  box-shadow: 0 10px 28px rgba(76,29,149,0.04), inset 0 1.5px 1px rgba(255,255,255,0.95);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  transition: var(--transition-smooth);
+}
+
+.alert-item::before, .dna-sig-item::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 99px;
+  background: var(--purple);
+  box-shadow: 0 0 11px 0 var(--purple);
+  transition: all 0.3s cubic-bezier(0.2,0.8,0.2,1);
+}
+
+.alert-item:hover::before, .dna-sig-item:hover::before {
+  top: 11px;
+  bottom: 11px;
+}
+
+.alert-item.danger::before {
+  background: var(--coral) !important;
+  box-shadow: 0 0 11px 0 rgba(220,38,38,0.5) !important;
+}
+
+.alert-item.warning::before {
+  background: var(--amber) !important;
+  box-shadow: 0 0 11px 0 rgba(180,83,9,0.5) !important;
+}
+
+.alert-item:hover, .dna-sig-item:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0.48));
+  box-shadow: 0 16px 36px rgba(76,29,149,0.08), inset 0 1.5px 1px #fff;
+  border-color: rgba(255,255,255,0.92) !important;
+}
+
+.alert-item svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+}
+
+.alert-item.danger svg { color: var(--coral); }
+.alert-item.warning svg { color: var(--amber); }
+
+.alert-text-container {
+  flex-grow: 1;
+}
+
+.alert-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--text-main);
+}
+
+.alert-desc {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* Weekly Priority Engine & Opportunity Backlog */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow);
+  min-width: 0;            /* tự co trong lưới/flex → bảng CUỘN trong khung thay vì tràn viền */
+  max-width: 100%;
+}
+/* Lưới/flex chứa bảng phải co được: min-width:auto mặc định khiến bảng rộng đẩy cả cột vượt khung.
+   Quy tắc chung này chặn DỨT ĐIỂM lỗi "bảng tràn viền" trên toàn hệ thống, không chỉ 1 chỗ. */
+*:has(> .table-container) { min-width: 0; }
+
+/* Bảng "Vai trò kênh điểm chạm": gói gọn để vừa cột (header + badge xuống dòng) thay vì tràn/cuộn dài.
+   Đặc tả cao hơn .growth-table + !important để thắng quy tắc nowrap mặc định của bảng. */
+.growth-table.channel-roles-table th { white-space: normal !important; line-height: 1.25; vertical-align: bottom; }
+.growth-table.channel-roles-table th, .growth-table.channel-roles-table td { padding-left: 8px !important; padding-right: 8px !important; }
+.growth-table.channel-roles-table .badge { white-space: normal !important; padding: 3px 7px; display: inline-block; line-height: 1.2; }
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Premium Thin Scrollbars for Table Containers */
+.table-responsive::-webkit-scrollbar, .table-container::-webkit-scrollbar {
+  height: 6px;
+}
+.table-responsive::-webkit-scrollbar-track, .table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-responsive::-webkit-scrollbar-thumb, .table-container::-webkit-scrollbar-thumb {
+  background: rgba(100, 84, 227, 0.15);
+  border-radius: 3px;
+}
+.table-responsive::-webkit-scrollbar-thumb:hover, .table-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 84, 227, 0.3);
+}
+
+.growth-table, .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.growth-table th, .data-table th {
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--text3);
+  font-weight: 800;
+  padding: 10px 14px;
+  border-bottom: 1.5px solid var(--line);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.growth-table td, .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line2);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.growth-table tbody tr:hover, .data-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.growth-table tbody tr:last-child td, .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px !important;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+}
+
+.badge.scale { background: var(--purple-soft); color: var(--purple); border: 1px solid rgba(102,85,230,0.25); }
+.badge.optimize { background: rgba(14,156,138,0.12); color: #0f766e; border: 1px solid rgba(14,156,138,0.25); }
+.badge.fix { background: rgba(220,38,38,0.12); color: #b91c1c; border: 1px solid rgba(220,38,38,0.25); }
+.badge.stop { background: rgba(239,68,68,0.13); color: #b91c1c; border: 1px solid rgba(239,68,68,0.25); }
+.badge.test { background: rgba(245,158,11,0.12); color: #b45309; border: 1px solid rgba(245,158,11,0.25); }
+
+.priority-score {
+  font-weight: 800;
+  color: var(--purple);
+}
+
+/* Executive Summary AI Box */
+.ai-summary-box {
+  background: linear-gradient(135deg, rgba(102, 85, 230, 0.05) 0%, rgba(14, 156, 138, 0.03) 100%);
+  border: 1px dashed rgba(102, 85, 230, 0.3);
+  padding: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.ai-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+
+.ai-summary-header svg {
+  animation: float 2.5s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.ai-summary-content {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ai-summary-content ul {
+  padding-left: 18px;
+  margin-top: 8px;
+}
+
+.ai-summary-section-title {
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-summary-section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 12px;
+  background: var(--purple);
+  border-radius: 2px;
+}
+
+/* -------------------------------------------------------------
+   Predictive Engine & UI Simulator Styling
+   ------------------------------------------------------------- */
+.predictor-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+  position: relative;
+}
+
+.predictor-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.input-glow {
+  background: #F7F9FD;
+  border: 1.5px solid #DBDFEE;
+  color: var(--text-main);
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  flex-grow: 1;
+  transition: var(--transition-smooth);
+}
+
+.input-glow:focus {
+  border-color: var(--purple);
+  box-shadow: var(--glow-shadow);
+  background: #fff;
+}
+
+.btn {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(102, 85, 230, 0.2);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.btn.btn-cyan {
+  background: linear-gradient(135deg, var(--purple), #5b4de0);
+}
+
+.btn.btn-cyan:hover {
+  box-shadow: var(--glow-shadow);
+}
+
+.btn.btn-secondary {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  box-shadow: none;
+}
+
+.btn.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: var(--purple);
+}
+
+.btn.btn-secondary.active,
+.btn.btn-secondary.active-scenario {
+  background: linear-gradient(180deg, #ffffff, #f4f0ff) !important;
+  color: var(--purple) !important;
+  border: 1px solid rgba(102, 85, 230, 0.35) !important;
+  box-shadow: 0 2px 6px rgba(102, 85, 230, 0.1);
+  font-weight: 700;
+}
+
+.predictor-result-panel {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  padding: 16px;
+  border-left: 3px solid var(--purple);
+  display: block;   /* FIX: trước đây display:none mà runWhalePrediction không bật lại → kết quả vô hình */
+  animation: slideIn 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.predictor-result-header {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.predictor-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.predictor-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.bar-bg {
+  width: 120px;
+  height: 8px;
+  background: rgba(102, 85, 230, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+.bar-fill.emerald { background: var(--green); }
+.bar-fill.cyan { background: var(--purple); }
+.bar-fill.coral { background: var(--coral); }
+
+/* Interactive Simulator Layouts */
+.simulator-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.simulator-controls-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slider-label-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.slider-val {
+  color: var(--purple);
+  font-weight: 800;
+}
+
+.custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(102, 85, 230, 0.1);
+  outline: none;
+  transition: background 0.3s;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--purple);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(102, 85, 230, 0.3);
+  transition: transform 0.1s;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.simulator-outputs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.sim-output-card {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.sim-output-lbl {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.sim-output-val {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-top: 6px;
+}
+
+.sim-output-val.positive {
+  color: var(--green);
+  text-shadow: 0 0 10px rgba(21, 128, 61, 0.1);
+}
+
+/* -------------------------------------------------------------
+   Cohort Table Styles
+   ------------------------------------------------------------- */
+.cohort-table th, .cohort-table td {
+  padding: 10px 12px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.cohort-table th:first-child, .cohort-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+}
+
+.cohort-cell {
+  font-weight: 700;
+  transition: var(--transition-smooth);
+}
+
+/* Cohort heatmap shades based on retention % */
+.ch-none { background: rgba(255, 255, 255, 0.1) !important; color: var(--text3) !important; }
+.ch-low { background: rgba(102, 85, 230, 0.06) !important; color: var(--purple) !important; }
+.ch-med-low { background: rgba(102, 85, 230, 0.15) !important; color: var(--purple) !important; }
+.ch-med { background: rgba(102, 85, 230, 0.3) !important; color: #1e1b4b !important; }
+.ch-med-high { background: rgba(102, 85, 230, 0.5) !important; color: #fff !important; }
+.ch-high { background: rgba(102, 85, 230, 0.75) !important; color: #fff !important; }
+
+/* Message Market Fit Heatmap Matrix */
+.msg-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 1fr;
+  gap: 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.msg-header {
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text3);
+  padding: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.msg-header-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 1fr;
+  border-bottom: 1.5px solid var(--line);
+  padding-bottom: 6px;
+}
+
+.msg-row-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  color: var(--text-main);
+}
+
+.msg-cell {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+
+.msg-cell-rev {
+  font-weight: 800;
+  color: var(--purple);
+  margin-top: 4px;
+}
+
+.msg-glow-high { background: rgba(21, 128, 61, 0.12); border-color: rgba(21, 128, 61, 0.25); }
+.msg-glow-med { background: rgba(102, 85, 230, 0.08); border-color: rgba(102, 85, 230, 0.18); }
+.msg-glow-low { background: rgba(255, 255, 255, 0.45); }
+
+/* Playbook and Governance accordion styles */
+.playbook-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.playbook-header-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1.5px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.playbook-tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text3);
+  border: 1px solid transparent;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.playbook-tab:hover {
+  color: var(--purple);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.playbook-tab.active {
+  background: linear-gradient(180deg, #ffffff, #f4f0ff) !important;
+  color: var(--purple) !important;
+  border: 1px solid rgba(102, 85, 230, 0.25) !important;
+  box-shadow: 0 4px 12px rgba(102, 85, 230, 0.12);
+  font-weight: 800;
+}
+
+.playbook-content {
+  font-size: 13px;
+  line-height: 1.65;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.playbook-content h4 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--line2);
+  padding-bottom: 4px;
+}
+
+.playbook-content p, .playbook-content ul {
+  margin-bottom: 14px;
+  color: var(--text2);
+}
+
+.playbook-content li {
+  margin-left: 18px;
+}
+
+/* Config Grid */
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.config-item-box {
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.config-item-box label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Charts Wrapper */
+.chart-wrapper {
+  position: relative;
+  height: 220px;
+  width: 100%;
+  z-index: 10;
+}
+
+/* -------------------------------------------------------------
+   MEU Design Specifics: Liquid Mesh & Tùy Chỉnh Controls
+   ------------------------------------------------------------- */
+.lm-mesh {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  filter: blur(28px) !important;
+  overflow: hidden !important;
+}
+
+.lm-a {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15 !important;
+  transition: opacity 0.3s ease !important;
+  background:
+    radial-gradient(32% 58% at 20% 50%, #ffc1d5, transparent 72%),
+    radial-gradient(28% 52% at 40% 64%, #ffe0b4, transparent 72%),
+    radial-gradient(28% 52% at 56% 46%, #fff3be, transparent 74%);
+}
+
+.lm-b {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12 !important;
+  transition: opacity 0.3s ease !important;
+  background:
+    radial-gradient(32% 58% at 84% 50%, #d6c2ff, transparent 72%),
+    radial-gradient(28% 52% at 66% 64%, #bfeacf, transparent 72%),
+    radial-gradient(28% 52% at 90% 46%, #bed2ff, transparent 72%);
+}
+
+.card:hover .lm-a {
+  opacity: 0.25 !important;
+}
+
+.card:hover .lm-b {
+  opacity: 0.22 !important;
+}
+
+.lm-in {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Database Explorer toolbar */
+.db-explorer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.45);
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  z-index: 10;
+  position: relative;
+}
+
+.db-explorer-table-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* Asset Migration Matrix */
+.migration-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.migration-source-card {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow);
+}
+
+.migration-source-card:hover {
+  background: rgba(102, 85, 230, 0.08);
+  border-color: var(--purple);
+}
+
+.migration-source-card.selected {
+  background: linear-gradient(135deg, rgba(102, 85, 230, 0.15) 0%, rgba(255, 255, 255, 0.5) 100%) !important;
+  border: 1px solid var(--purple) !important;
+  box-shadow: 0 4px 12px rgba(102, 85, 230, 0.18);
+}
+
+.migration-rates-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.migration-rate-item {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  box-shadow: var(--shadow);
+}
+
+.migration-rate-lbl {
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.migration-rate-val {
+  font-weight: 800;
+  color: var(--purple);
+}
+
+/* Constraints Panel */
+.constraints-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.checkbox-label input {
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------
+   Locking / Customize Security mode
+   ------------------------------------------------------------- */
+body:not(.customizing) .content-body input:not([type=range]):not([type=radio]):not([type=checkbox]):not(#db-search-input):not(#predict-cust-id):not(#churn-cust-id):not(#utm-validation-url):not([id^=calc-]):not([id^=ds-]):not([id^=rev-]):not([id^=cfg-]),
+body:not(.customizing) .content-body select:not(#role-selector):not(#time-range-selector):not(#db-filter-segment):not(#db-filter-device):not(#geopolitical-regime-select):not(#realloc-from-channel):not(#realloc-to-channel):not(#gs-stage-selector):not(#funnel-filter-channel):not(#io-dataset):not([id^=ds-]) {
+  pointer-events: none !important;
+  user-select: none !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+body:not(.customizing) .btnrow,
+body:not(.customizing) #btn-add-backlog {
+  display: none !important;
+}
+
+body.customizing .content-body input:not([type=range]):not([type=radio]):not([type=checkbox]):not(#db-search-input):not(#predict-cust-id):not(#churn-cust-id):not(#utm-validation-url):not([id^=calc-]):not([id^=ds-]):not([id^=rev-]):not([id^=cfg-]),
+body.customizing .content-body select:not(#role-selector):not(#time-range-selector):not(#db-filter-segment):not(#db-filter-device):not(#geopolitical-regime-select):not(#realloc-from-channel):not(#realloc-to-channel):not(#gs-stage-selector):not(#funnel-filter-channel):not([id^=ds-]) {
+  outline: 1.5px dashed var(--purple) !important;
+  outline-offset: 2px !important;
+  border-radius: 8px !important;
+  background: rgba(102, 85, 230, 0.055) !important;
+  border: 1px solid rgba(102, 85, 230, 0.18) !important;
+  pointer-events: auto !important;
+}
+
+body.customizing .content-body input:not([type=range]):hover,
+body.customizing .content-body select:hover {
+  background: rgba(102, 85, 230, 0.11) !important;
+  border-color: rgba(102, 85, 230, 0.42) !important;
+}
+
+body.customizing .content-body input:not([type=range]):focus,
+body.customizing .content-body select:focus {
+  background: #fff !important;
+  border-color: var(--purple) !important;
+  box-shadow: 0 0 0 3px rgba(102,85,230,.14) !important;
+  outline: none !important;
+}
+
+/* Lock hint style */
+.lockhint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text3);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 12px;
+  letter-spacing: 0.05em;
+}
+
+body.customizing .lockhint {
+  color: var(--purple);
+  border-color: rgba(102, 85, 230, 0.32);
+  background: var(--purple-soft);
+}
+
+/* Custom Dropdown Item Styles */
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--purple) !important;
+}
+.dropdown-item.active {
+  background: var(--purple-soft);
+  color: var(--purple) !important;
+  font-weight: 700;
+}
+
+/* Custom Dropdown General Classes */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.custom-select-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  height: 28px;
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition-smooth);
+}
+.custom-select-btn:hover, .custom-select-btn:focus {
+  border-color: var(--purple);
+  box-shadow: var(--glow-shadow);
+  background: #fff;
+}
+.custom-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 100%;
+  background: rgba(30, 27, 46, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--glow-shadow);
+  z-index: 1010;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Ensure minimum font-size is 11px globally, overriding any inline styles */
+[style*="font-size: 10.5px"], [style*="font-size:10.5px"],
+[style*="font-size: 10px"], [style*="font-size:10px"],
+[style*="font-size: 9.5px"], [style*="font-size:9.5px"],
+[style*="font-size: 9px"], [style*="font-size:9px"],
+[style*="font-size: 8.5px"], [style*="font-size:8.5px"],
+[style*="font-size: 8px"], [style*="font-size:8px"],
+[style*="font-size: 7.5px"], [style*="font-size:7.5px"],
+[style*="font-size: 7px"], [style*="font-size:7px"] {
+  font-size: 11px !important;
+}
+
+/* ============================================================
+   PREMIUM REDESIGN v3 — "Solid Premium" theme layer
+   Loaded last → overrides the legacy glassmorphism above.
+   Direction: solid white surfaces · crisp hairline borders ·
+   a real elevation scale · refined typography · purple kept as
+   the brand identity but used with restraint.
+   (Self-contained: delete this block to revert to the old look.)
+   ============================================================ */
+:root {
+  --bg: #F5F6FA; --bg-base: #F5F6FA;
+  --bg-surface: #FFFFFF; --bg-surface-elevated: #FFFFFF;
+  --bg-subtle: #F2F4F8; --bg-subtle-2: #FAFBFD;
+
+  --border-color: #E7E9F1; --border-strong: #D6DAE6;
+  --line: #ECEEF4; --line2: #F2F4F9;
+
+  --purple: #6454E3; --purple-strong: #5240C9;
+  --purple-soft: #EEEBFD; --purple-tint: #F6F4FE;
+
+  --text-main: #111726; --text2: #424B61;
+  --text3: #5B6478; --text-muted: #5B6478;   /* trước #818AA0 (~3.2:1, chữ chìm) → ~5.9:1 đạt WCAG AA */
+
+  --shadow-sm: 0 1px 2px rgba(17,23,38,.05);
+  --shadow: 0 1px 2px rgba(17,23,38,.04), 0 6px 16px rgba(17,23,38,.05);
+  --shadow-md: 0 4px 10px rgba(17,23,38,.05), 0 14px 30px rgba(17,23,38,.08);
+  --shadow-lg: 0 12px 28px rgba(17,23,38,.10), 0 28px 56px rgba(17,23,38,.12);
+  --glow-shadow: 0 12px 30px rgba(100,84,227,.16);
+  --transition-smooth: all .2s cubic-bezier(.2,.8,.2,1);
+}
+
+body {
+  background-image:
+    radial-gradient(1100px 520px at 100% -8%, rgba(100,84,227,.06), transparent 60%),
+    radial-gradient(900px 480px at -5% 0%, rgba(14,156,138,.04), transparent 55%);
+}
+
+/* Unified radius scale (cards a touch softer for premium feel) */
+.card, .kpi-card, .verdict, .modal, .table-container, .db-explorer-toolbar,
+.calc-results, .migration-source-card, .config-item-box, .playbook-tab,
+.ai-summary-box { border-radius: 14px !important; }
+
+/* ---- Sidebar (solid, slightly narrower → more room for content) ---- */
+.sidebar { width: 264px; background: var(--bg-surface); border-right: 1px solid var(--border-color); backdrop-filter: none; padding: 20px 16px; }
+.brand-section { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border-color); }
+.brand-logo { background: linear-gradient(135deg,#7C6CF0,#6454E3); box-shadow: 0 4px 12px rgba(100,84,227,.30); }
+.nav-menu { gap: 2px; }
+.nav-item { border-radius: 10px; padding: 9px 12px; color: var(--text2); font-weight: 600; }
+.nav-item svg { opacity: .72; }
+.nav-item:hover { background: var(--bg-subtle) !important; color: var(--text-main) !important; box-shadow: none !important; transform: none; }
+.nav-item:hover svg { opacity: 1; }
+.nav-item.active { background: linear-gradient(135deg,#7C6CF0,#6454E3) !important; color:#fff !important; border-color: transparent !important; box-shadow: 0 6px 16px rgba(100,84,227,.28) !important; }
+.nav-group-label { font-size: 11px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; color: var(--text3); padding: 15px 12px 5px; }
+.nav-group-label:first-of-type { padding-top: 2px; }
+
+/* ---- Right contextual panel ---- */
+.sidebar-right { width: 300px; background: var(--bg-surface); border-left: 1px solid var(--border-color); backdrop-filter: none; padding: 20px 16px; }
+
+/* ---- Topbar (slim, crisp, title never wraps) ---- */
+.topbar { height: 64px; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); backdrop-filter: none; padding: 0 22px; gap: 10px; }
+.page-title-section { flex-shrink: 0; }
+.page-title-section h1 { font-size: 18px; font-weight: 800; letter-spacing: -.4px; white-space: nowrap; }
+.topbar-summary { gap: 14px !important; margin-right: 8px !important; }
+.topbar-controls { gap: 9px; }
+#role-dropdown { width: 152px !important; }
+#time-range-dropdown { width: 116px !important; }
+
+/* ---- Cards ---- */
+.card { background: var(--bg-surface); border: 1px solid var(--border-color); box-shadow: var(--shadow); backdrop-filter: none; padding: 20px 22px; }
+.card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card h3 { font-size: 13px; letter-spacing: .03em; }
+
+/* ---- KPI scorecards ---- */
+.kpi-card { background: var(--bg-surface) !important; border: 1px solid var(--border-color) !important; box-shadow: var(--shadow) !important; padding: 18px 20px; }
+.kpi-card:hover { transform: translateY(-2px) !important; box-shadow: var(--shadow-md) !important; border-color: var(--border-strong) !important; }
+.kpi-value { font-weight: 800; font-size: 26px; letter-spacing: -.6px; }
+.kpi-label { color: var(--text3); font-weight: 700; }
+
+/* ---- Tables ---- */
+.growth-table th { background: var(--bg-subtle); color: var(--text3); border-bottom: 1px solid var(--border-color); }
+.growth-table td { border-bottom: 1px solid var(--line); }
+.growth-table tbody tr:hover { background: var(--bg-subtle-2); }
+
+/* ---- Buttons ---- */
+.btn { background: var(--purple); border-radius: 10px; box-shadow: var(--shadow-sm); font-weight: 700; }
+.btn:hover { background: var(--purple-strong); transform: translateY(-1px); filter: none; box-shadow: var(--shadow); }
+.btn.btn-secondary { background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text2); box-shadow: none; }
+.btn.btn-secondary:hover { background: var(--bg-subtle); border-color: var(--border-strong); color: var(--text-main); }
+
+/* ---- Selects / dropdown triggers (the popup menu stays dark) ---- */
+.custom-select, .custom-select-btn { background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 10px; }
+.custom-select:hover, .custom-select:focus, .custom-select-btn:hover, .custom-select-btn:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(100,84,227,.15); background: #fff; }
+.custom-dropdown-menu { box-shadow: var(--shadow-lg); }
+
+/* ---- Right-panel recommendation cards ---- */
+.growth-rec-card { background: var(--bg-surface); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+.growth-rec-card:hover { background: var(--bg-surface); border-color: var(--border-strong); box-shadow: var(--shadow); transform: translateY(-2px); }
+
+/* ---- AI summary box (was a dashed "draft" look) ---- */
+.ai-summary-box { background: linear-gradient(135deg, var(--purple-tint), #FFFFFF); border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+.ai-summary-header { color: var(--purple); }
+
+/* ---- Radial gauge + inputs ---- */
+.radial-gauge-value { font-weight: 800; text-shadow: none; }
+.radial-gauge .bg-circle { stroke: #EDEFF5; }
+.input-glow { background: var(--bg-subtle-2); border: 1px solid var(--border-color); border-radius: 10px; }
+.input-glow:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(100,84,227,.15); background: #fff; }
+.predictor-result-panel { background: var(--bg-surface); box-shadow: var(--shadow); }
+
+/* ---- Responsive (3 breakpoints) ---- */
+@media (max-width: 1279px) {
+  .sidebar-right { display: none; }           /* tablet: drop the contextual panel */
+}
+@media (max-width: 1024px) {
+  .sidebar { width: 72px; padding: 16px 8px; }  /* collapse to icon rail */
+  .sidebar .brand-name, .sidebar .brand-subtitle, .sidebar .nav-item span,
+  .sidebar .nav-group-label, .sidebar .role-text-lbl, .sidebar .role-text-name { display: none !important; }
+  .nav-item { justify-content: center; padding: 10px 0; }
+  .brand-section { justify-content: center; }
+
+  /* Force stack-layout for grids and widgets to prevent horizontal cell squeezing */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .dashboard-grid > * {
+    grid-column: span 12 !important;
+  }
+  .simulator-layout, .calc-grid-layout, .constraints-grid, .simulator-outputs-grid, .migration-rates-list, .creative-analytics-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 640px) {
+  .topbar { height: auto; min-height: 56px; flex-wrap: wrap; padding: 10px 14px; gap: 8px; }
+  .topbar-summary { display: none !important; }  /* Health/LTV cũng có trong nội dung → bỏ ở topbar hẹp */
+  .topbar-controls { flex-wrap: wrap; }
+  .content-body { padding: 16px; }
+  .dashboard-grid { gap: 14px; }
+  .cmdk-trigger span, .cmdk-trigger kbd { display: none; }  /* mobile: chỉ giữ icon */
+  .cmdk-trigger { margin-left: 0; padding: 0 10px; }
+}
+
+/* ============================================================
+   v3 add-on — Command Palette (⌘K) + collapsible right panel
+   ============================================================ */
+/* ⌘K trigger (ngồi cạnh tiêu đề, nơi topbar còn trống) */
+.cmdk-trigger { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px 0 12px; margin-left: 16px; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text3); font-size: 12.5px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); }
+.cmdk-trigger:hover { background: #fff; border-color: var(--purple); color: var(--text2); box-shadow: 0 0 0 3px rgba(100,84,227,.12); }
+.cmdk-trigger svg { width: 15px; height: 15px; }
+.cmdk-trigger span { white-space: nowrap; }
+.cmdk-trigger kbd { font-family: var(--font-sans); font-size: 11px; font-weight: 700; color: var(--text3); background: #fff; border: 1px solid var(--border-color); border-radius: 6px; padding: 1px 6px; }
+
+/* Palette overlay */
+.cmdk-overlay { position: fixed; inset: 0; z-index: 3000; display: none; align-items: flex-start; justify-content: center; background: rgba(17,23,38,.34); backdrop-filter: blur(2px); padding-top: 13vh; }
+.cmdk-overlay.show { display: flex; animation: cmdkFade .14s ease; }
+@keyframes cmdkFade { from { opacity: 0; } to { opacity: 1; } }
+.cmdk-box { width: min(560px, 92vw); background: #fff; border: 1px solid var(--border-color); border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; animation: cmdkPop .16s cubic-bezier(.2,.8,.2,1); }
+@keyframes cmdkPop { from { transform: translateY(-8px) scale(.98); opacity: .5; } to { transform: none; opacity: 1; } }
+.cmdk-input-wrap { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border-color); }
+.cmdk-ic { color: var(--text3); font-size: 15px; font-weight: 800; }
+.cmdk-input { flex: 1; border: none; outline: none; font-size: 15px; font-weight: 500; color: var(--text-main); background: transparent; }
+.cmdk-list { max-height: 48vh; overflow-y: auto; padding: 6px; }
+.cmdk-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; }
+.cmdk-item.active { background: var(--purple-soft); }
+.cmdk-item-label { font-size: 13.5px; font-weight: 600; color: var(--text-main); }
+.cmdk-item.active .cmdk-item-label { color: var(--purple-strong); }
+.cmdk-item-grp { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text3); }
+.cmdk-empty { padding: 22px; text-align: center; color: var(--text3); font-size: 13px; }
+.cmdk-foot { display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid var(--border-color); font-size: 11px; color: var(--text3); }
+
+/* Right panel collapse */
+.rpanel-btn { background: transparent; border: none; cursor: pointer; color: var(--text3); padding: 4px; border-radius: 8px; display: inline-flex; transition: var(--transition-smooth); }
+.rpanel-btn:hover { background: var(--bg-subtle); color: var(--purple); }
+.rpanel-btn svg { width: 18px; height: 18px; }
+body.rpanel-collapsed .sidebar-right { display: none; }
+.rpanel-reopen { position: fixed; right: 0; top: 88px; z-index: 90; display: none; align-items: center; justify-content: center; width: 38px; height: 46px; border: 1px solid var(--border-color); border-right: none; border-radius: 12px 0 0 12px; background: #fff; color: var(--purple); cursor: pointer; box-shadow: var(--shadow-md); transition: var(--transition-smooth); }
+.rpanel-reopen:hover { width: 44px; background: var(--purple-soft); }
+.rpanel-reopen svg { width: 18px; height: 18px; }
+body.rpanel-collapsed .rpanel-reopen { display: flex; }
+@media (max-width: 1279px) { .rpanel-reopen { display: none !important; } }
+
+/* ============================================================
+   v3 add-on — NEUMORPHIC KIT (soft-3D "gk-*" components)
+   Hero card: real gauge (bezel + glowing arc + animated needle,
+   click dial to replay), segmented progress, segmented control,
+   sparkline. Collapsible. Works in light + dark.
+   ============================================================ */
+.gk-card { background: linear-gradient(145deg, #ffffff, #eef1f8); border: 1px solid rgba(255,255,255,.7); border-radius: 22px; padding: 20px 22px; box-shadow: 10px 10px 26px rgba(17,23,38,.10), -8px -8px 22px rgba(255,255,255,.95); transition: var(--transition-smooth); align-self: start; }
+.gk-head { display: flex; align-items: center; gap: 9px; margin-bottom: 16px; }
+.gk-head h3, .gk-head .gk-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text2); display: flex; align-items: center; gap: 8px; margin: 0; }
+.gk-coin { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background: linear-gradient(145deg, #fde9b8, #f3c969); box-shadow: 2px 2px 5px rgba(17,23,38,.14), -2px -2px 5px rgba(255,255,255,.9); color: #8a6a16; }
+.gk-coin svg { width: 14px; height: 14px; }
+.gk-collapse { margin-left: auto; background: transparent; border: none; color: var(--text3); cursor: pointer; padding: 4px; border-radius: 8px; display: inline-flex; transition: var(--transition-smooth); }
+.gk-collapse:hover { color: var(--purple); background: rgba(100,84,227,.08); }
+.gk-collapse svg { width: 18px; height: 18px; transition: transform .25s; }
+.gk-card.gk-collapsed .gk-collapse svg { transform: rotate(-90deg); }
+.gk-card.gk-collapsed .gk-body { display: none; }
+
+/* Gauge */
+.gk-gauge { display: flex; justify-content: center; padding: 6px 0 4px; }
+.gk-dial { width: 188px; height: 188px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: linear-gradient(145deg, #eef0f8, #ffffff); box-shadow: inset 6px 6px 14px rgba(17,23,38,.10), inset -6px -6px 14px rgba(255,255,255,.92), 5px 5px 12px rgba(17,23,38,.06); transition: transform .14s ease, box-shadow .14s ease; }
+.gk-dial:active { transform: scale(.984); box-shadow: inset 9px 9px 20px rgba(17,23,38,.16), inset -5px -5px 12px rgba(255,255,255,.85); }
+.gk-dial svg { width: 168px; height: 168px; overflow: visible; }
+.gk-arc-track { stroke: #e2e5f0; }
+.gk-arc { transition: stroke-dashoffset 1.15s cubic-bezier(.2,.85,.25,1); }
+.gk-needle { transition: transform 1.15s cubic-bezier(.2,.85,.25,1); transform-origin: 80px 80px; }
+.gk-face { fill: url(#gkFace); }
+
+/* Score row */
+.gk-score { display: flex; align-items: baseline; gap: 12px; margin: 12px 2px 4px; padding-top: 14px; border-top: 1px solid var(--line); }
+.gk-score .lab { font-size: 12px; font-weight: 800; color: var(--green); text-transform: uppercase; letter-spacing: .04em; }
+.gk-score .v { font-size: 32px; font-weight: 800; color: var(--text-main); letter-spacing: -1px; line-height: 1; }
+.gk-score .v small { font-size: 14px; font-weight: 700; color: var(--text3); letter-spacing: 0; }
+.gk-score .d { margin-left: auto; font-size: 12px; font-weight: 800; color: var(--green); }
+.gk-score .d.neg { color: var(--coral); }
+
+/* Segmented progress bars */
+.gk-prog { margin-top: 14px; }
+.gk-prog-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+.gk-prog-h b { font-size: 12px; font-weight: 600; color: var(--text2); }
+.gk-prog-h span { font-size: 12px; font-weight: 800; color: var(--text-main); }
+.gk-prog-t { height: 9px; border-radius: 6px; background: #e6e9f2; box-shadow: inset 2px 2px 5px rgba(17,23,38,.12), inset -1px -1px 3px rgba(255,255,255,.8); overflow: hidden; }
+.gk-prog-f { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #8b7cf0, #6454e3); box-shadow: 0 0 10px rgba(100,84,227,.45); transition: width 1s cubic-bezier(.2,.85,.25,1); }
+
+/* Segmented control */
+.gk-seg { display: flex; width: 100%; gap: 2px; margin-top: 16px; padding: 4px; border-radius: 12px; background: #e8ebf3; box-shadow: inset 2px 2px 5px rgba(17,23,38,.10), inset -1px -1px 3px rgba(255,255,255,.85); }
+.gk-seg button { flex: 1 1 0; border: none; background: transparent; color: var(--text3); font-family: var(--font-sans); font-size: 11px; font-weight: 700; padding: 6px 4px; border-radius: 9px; cursor: pointer; white-space: nowrap; text-align: center; transition: var(--transition-smooth); }
+.gk-seg button:hover { color: var(--text2); }
+.gk-seg button.active { background: linear-gradient(145deg, #ffffff, #f1eefe); color: var(--purple); box-shadow: 2px 2px 6px rgba(17,23,38,.10), -2px -2px 5px rgba(255,255,255,.9); }
+
+/* Sparkline */
+.gk-spark { margin-top: 14px; height: 66px; }
+.gk-spark svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Neumorphic KPI cards — scoped to the Customer tab to match the design */
+#tab-customer-value .kpi-card { background: linear-gradient(145deg, #ffffff, #eef1f8) !important; border: 1px solid rgba(255,255,255,.7) !important; border-radius: 18px !important; box-shadow: 7px 7px 18px rgba(17,23,38,.08), -6px -6px 16px rgba(255,255,255,.92) !important; }
+#tab-customer-value .kpi-card:hover { transform: translateY(-3px) !important; box-shadow: 10px 12px 24px rgba(17,23,38,.12), -6px -6px 16px rgba(255,255,255,.95) !important; }
+#tab-customer-value .kpi-trend { box-shadow: inset 1px 1px 3px rgba(17,23,38,.06); }
+
+/* ---- Neumorphic kit · DARK ---- */
+[data-theme="dark"] .gk-card { background: linear-gradient(145deg, #1c212c, #13171e); border-color: rgba(255,255,255,.05); box-shadow: 10px 10px 26px rgba(0,0,0,.5), -6px -6px 18px rgba(255,255,255,.03); }
+[data-theme="dark"] .gk-dial { background: linear-gradient(145deg, #13171e, #1d222d); box-shadow: inset 6px 6px 14px rgba(0,0,0,.55), inset -4px -4px 12px rgba(255,255,255,.04), 5px 5px 12px rgba(0,0,0,.4); }
+[data-theme="dark"] .gk-dial:active { box-shadow: inset 9px 9px 22px rgba(0,0,0,.65), inset -3px -3px 10px rgba(255,255,255,.03); }
+[data-theme="dark"] .gk-arc-track { stroke: #2a313d; }
+[data-theme="dark"] .gk-coin { background: linear-gradient(145deg, #5a4a1e, #8a6a16); color: #ffe6a6; box-shadow: 2px 2px 5px rgba(0,0,0,.5), -2px -2px 5px rgba(255,255,255,.04); }
+[data-theme="dark"] .gk-prog-t { background: #11151c; box-shadow: inset 2px 2px 5px rgba(0,0,0,.6), inset -1px -1px 3px rgba(255,255,255,.03); }
+[data-theme="dark"] .gk-seg { background: #11151c; box-shadow: inset 2px 2px 5px rgba(0,0,0,.6), inset -1px -1px 3px rgba(255,255,255,.03); }
+[data-theme="dark"] .gk-seg button.active { background: linear-gradient(145deg, #242a36, #1a1f29); color: var(--purple); box-shadow: 2px 2px 6px rgba(0,0,0,.5), -2px -2px 5px rgba(255,255,255,.04); }
+[data-theme="dark"] #tab-customer-value .kpi-card { background: linear-gradient(145deg, #1c212c, #14181f) !important; border-color: rgba(255,255,255,.05) !important; box-shadow: 7px 7px 18px rgba(0,0,0,.45), -5px -5px 14px rgba(255,255,255,.03) !important; }
+[data-theme="dark"] #tab-customer-value .kpi-card:hover { box-shadow: 10px 12px 26px rgba(0,0,0,.55), -5px -5px 14px rgba(255,255,255,.04) !important; }
+
+/* ============================================================
+   v3 add-on — DARK MODE (premium fintech, Linear/Mercury vibe)
+   Most surfaces already read CSS vars (from the v3 theme above),
+   so redefining tokens flips ~95% instantly. The rest = a few
+   hardcoded-white rules + inline white backgrounds, overridden here.
+   ============================================================ */
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text2); cursor: pointer; transition: var(--transition-smooth); }
+.theme-toggle:hover { color: var(--purple); border-color: var(--purple); background: var(--bg-surface); }
+.theme-toggle svg { width: 17px; height: 17px; }
+
+[data-theme="dark"] {
+  --bg: #0B0E14; --bg-base: #080B11;
+  --bg-surface: #151A26; --bg-surface-elevated: #1D2333;
+  --bg-subtle: #242D3D; --bg-subtle-2: #19202E;
+  --border-color: #313D54; --border-strong: #45546E;
+  --line: #2D3747; --line2: #242C3A;
+
+  --text-main: #FFFFFF; --text2: #F3F4F6; --text3: #E5E7EB; --text-muted: #9CA3AF;
+
+  --purple: #9F92EC; --purple-strong: #8E7FF2; --purple-soft: #222046; --purple-tint: #15132A;
+  --color-accent: #9F92EC; --color-violet: #9F92EC;
+  --green: #4ADE80; --coral: #F87171; --amber: #FBBF24; --teal: #2DD4BF; --blue: #60A5FA;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.6);
+  --shadow: 0 1px 4px rgba(0,0,0,.6), 0 6px 18px rgba(0,0,0,.50);
+  --shadow-md: 0 6px 16px rgba(0,0,0,.55), 0 16px 36px rgba(0,0,0,.65);
+  --shadow-lg: 0 16px 42px rgba(0,0,0,.65), 0 32px 64px rgba(0,0,0,.75);
+  --glow-shadow: 0 14px 34px rgba(159,146,236,.35);
+}
+[data-theme="dark"] body {
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(1100px 520px at 100% -8%, rgba(142,127,242,.10), transparent 60%),
+    radial-gradient(900px 480px at -5% 0%, rgba(45,212,191,.06), transparent 55%);
+}
+/* hardcoded-white rules from the light theme → surface in dark */
+[data-theme="dark"] .cmdk-box,
+[data-theme="dark"] .cmdk-trigger:hover,
+[data-theme="dark"] .custom-select:hover, [data-theme="dark"] .custom-select:focus,
+[data-theme="dark"] .custom-select-btn:hover, [data-theme="dark"] .custom-select-btn:focus,
+[data-theme="dark"] .input-glow:focus,
+[data-theme="dark"] .btn.btn-secondary:hover,
+[data-theme="dark"] .rpanel-reopen { background: var(--bg-surface) !important; }
+[data-theme="dark"] .cmdk-trigger kbd { background: var(--bg-subtle); }
+[data-theme="dark"] .ai-summary-box { background: linear-gradient(135deg, var(--purple-tint), var(--bg-surface)) !important; }
+[data-theme="dark"] .radial-gauge .bg-circle { stroke: #262C37; }
+/* catch inline white backgrounds (index.html has ~59) generically */
+[data-theme="dark"] [style*="background:#fff"],
+[data-theme="dark"] [style*="background: #fff"],
+[data-theme="dark"] [style*="background:#FFF"],
+[data-theme="dark"] [style*="background: #FFF"],
+[data-theme="dark"] [style*="background:#ffffff"],
+[data-theme="dark"] [style*="background: #ffffff"],
+[data-theme="dark"] [style*="background: white"],
+[data-theme="dark"] [style*="background:white"],
+[data-theme="dark"] [style*="background-color: #fff"],
+[data-theme="dark"] [style*="background-color:#fff"] { background: var(--bg-surface) !important; }
+/* inline glass fills rgba(255,255,255,…) (used widely as surfaces) → dark surface */
+[data-theme="dark"] [style*="rgba(255, 255, 255"],
+[data-theme="dark"] [style*="rgba(255,255,255"] { background-color: var(--bg-surface-elevated) !important; background-image: none !important; }
+
+/* ============================================================
+   v3 add-on — GLOBAL NEUMORPHIC (all .card / .kpi-card · 13 tabs)
+   Soft-3D surfaces matching the gk-* hero card. Tuned soft so the
+   tables/charts inside still read cleanly. Light + dark.
+   ============================================================ */
+.card { background: linear-gradient(145deg, #ffffff, #eef1f8) !important; border: 1px solid rgba(255,255,255,.7) !important; border-radius: 18px !important; box-shadow: 7px 7px 18px rgba(17,23,38,.08), -6px -6px 16px rgba(255,255,255,.92) !important; backdrop-filter: none !important; }
+.card:hover { transform: translateY(-2px); box-shadow: 9px 11px 24px rgba(17,23,38,.11), -6px -6px 16px rgba(255,255,255,.95) !important; }
+.kpi-card { background: linear-gradient(145deg, #ffffff, #eef1f8) !important; border: 1px solid rgba(255,255,255,.7) !important; border-radius: 16px !important; box-shadow: 6px 6px 15px rgba(17,23,38,.07), -5px -5px 14px rgba(255,255,255,.9) !important; }
+.kpi-card:hover { transform: translateY(-2px) !important; box-shadow: 9px 11px 22px rgba(17,23,38,.11), -5px -5px 14px rgba(255,255,255,.95) !important; }
+.kpi-trend { box-shadow: inset 1px 1px 3px rgba(17,23,38,.05); }
+
+[data-theme="dark"] .card { background: linear-gradient(145deg, #1c212c, #14181f) !important; border-color: rgba(255,255,255,.05) !important; box-shadow: 7px 7px 18px rgba(0,0,0,.45), -5px -5px 14px rgba(255,255,255,.03) !important; }
+[data-theme="dark"] .card:hover { box-shadow: 9px 11px 24px rgba(0,0,0,.55), -5px -5px 14px rgba(255,255,255,.04) !important; }
+[data-theme="dark"] .kpi-card { background: linear-gradient(145deg, #1c212c, #14181f) !important; border-color: rgba(255,255,255,.05) !important; box-shadow: 6px 6px 15px rgba(0,0,0,.45), -4px -4px 12px rgba(255,255,255,.03) !important; }
+[data-theme="dark"] .kpi-card:hover { box-shadow: 9px 11px 22px rgba(0,0,0,.55), -4px -4px 12px rgba(255,255,255,.04) !important; }
+
+/* Neumorphic upgrade for the existing radial gauges (Executive/Capital/Designer…) */
+.radial-gauge[data-gk="1"] { border-radius: 50%; background: linear-gradient(145deg, #eef0f8, #ffffff); box-shadow: inset 5px 5px 12px rgba(17,23,38,.10), inset -5px -5px 12px rgba(255,255,255,.92), 4px 4px 10px rgba(17,23,38,.05); display: flex; align-items: center; justify-content: center; }
+.radial-gauge[data-gk="1"] > svg:not(.gk-up-svg) { display: none !important; }
+.radial-gauge[data-gk="1"] .gk-up-svg { width: 132px; height: 132px; overflow: visible; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.radial-gauge[data-gk="1"] .gk-arc-track { stroke: #e2e5f0; }
+.radial-gauge[data-gk="1"] .gk-up-arc { transition: stroke-dashoffset 1s cubic-bezier(.2,.85,.25,1); }
+.radial-gauge[data-gk="1"] .gk-up-needle { transition: transform 1s cubic-bezier(.2,.85,.25,1); transform-origin: 80px 80px; }
+.radial-gauge[data-gk="1"] .radial-gauge-value { z-index: 3; font-size: 22px; font-weight: 800; text-shadow: none !important; }
+[data-theme="dark"] .radial-gauge[data-gk="1"] { background: linear-gradient(145deg, #13171e, #1d222d); box-shadow: inset 5px 5px 12px rgba(0,0,0,.55), inset -4px -4px 12px rgba(255,255,255,.04), 4px 4px 10px rgba(0,0,0,.4); }
+[data-theme="dark"] .radial-gauge[data-gk="1"] .gk-arc-track { stroke: #2a313d; }
+
+/* Chỉ báo & Lưu ý — neumorphic soft-tile signals (1 hàng/chỉ báo, thẳng hàng) */
+.gk-signals { display: flex; flex-direction: column; gap: 12px; }
+.gk-signal { display: flex; align-items: center; gap: 16px; padding: 15px 18px; border-radius: 16px; background: linear-gradient(145deg, #ffffff, #eef1f8); box-shadow: 6px 6px 14px rgba(17,23,38,.07), -5px -5px 12px rgba(255,255,255,.9); }
+.gk-signal-ic { width: 48px; height: 48px; border-radius: 14px; flex: 0 0 48px; display: grid; place-items: center; box-shadow: 3px 3px 7px rgba(17,23,38,.12), -3px -3px 7px rgba(255,255,255,.9); }
+.gk-signal-ic svg { width: 22px; height: 22px; }
+.gk-signal-main { flex: 1 1 auto; min-width: 0; }
+.gk-signal-lab { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+.gk-signal-val { font-size: 26px; font-weight: 800; color: var(--text-main); letter-spacing: -.5px; line-height: 1.1; margin-top: 3px; }
+.gk-signal-badge { flex: 0 0 auto; font-size: 11.5px; font-weight: 800; padding: 7px 13px; border-radius: 9999px; white-space: nowrap; align-self: center; }
+[data-theme="dark"] .gk-signal { background: linear-gradient(145deg, #1c212c, #14181f); box-shadow: 6px 6px 14px rgba(0,0,0,.45), -4px -4px 12px rgba(255,255,255,.03); }
+[data-theme="dark"] .gk-signal-ic { box-shadow: 3px 3px 7px rgba(0,0,0,.5), -2px -2px 6px rgba(255,255,255,.04); }
+
+/* ============================================================
+   v4 — GLASSMORPHISM (frosted glass front + colorful blurred
+   backdrop). Loaded LAST so it overrides the opaque neumorphic
+   surfaces. Soft color blobs behind + translucent blur cards =
+   "kính trong mặt trước, blur mờ phía sau", very dimensional.
+   Kept opaque enough that text stays readable.
+   ============================================================ */
+body {
+  background-color: #e7ebf5;
+  background-image:
+    radial-gradient(46% 40% at 13% 6%, rgba(124,108,240,.26), transparent 72%),
+    radial-gradient(42% 38% at 88% 5%, rgba(45,212,191,.20), transparent 72%),
+    radial-gradient(50% 46% at 82% 94%, rgba(99,102,241,.20), transparent 72%),
+    radial-gradient(42% 42% at 6% 92%, rgba(236,120,180,.14), transparent 72%);
+  background-attachment: fixed;
+}
+.card, .kpi-card {
+  background: rgba(255,255,255,.62) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  backdrop-filter: blur(22px) saturate(1.4) !important;
+  border: 1px solid rgba(255,255,255,.7) !important;
+  box-shadow: 0 12px 34px rgba(31,38,135,.13), inset 0 1px 0 rgba(255,255,255,.75) !important;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 20px 48px rgba(31,38,135,.18), inset 0 1px 0 rgba(255,255,255,.85) !important; }
+.kpi-card:hover { transform: translateY(-2px) !important; box-shadow: 0 20px 46px rgba(31,38,135,.18), inset 0 1px 0 rgba(255,255,255,.85) !important; }
+.gk-card {
+  background: rgba(255,255,255,.55) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(1.5);
+  backdrop-filter: blur(26px) saturate(1.5) !important;
+  border: 1px solid rgba(255,255,255,.65) !important;
+  box-shadow: 0 16px 40px rgba(31,38,135,.15), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+.gk-signal {
+  background: rgba(255,255,255,.5) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  backdrop-filter: blur(12px) saturate(1.3) !important;
+  border: 1px solid rgba(255,255,255,.6) !important;
+  box-shadow: 0 6px 20px rgba(31,38,135,.10), inset 0 1px 0 rgba(255,255,255,.7) !important;
+}
+.gk-dial { background: linear-gradient(145deg, rgba(255,255,255,.7), rgba(238,240,248,.5)) !important; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.sidebar, .sidebar-right { background: rgba(255,255,255,.5) !important; -webkit-backdrop-filter: blur(26px) saturate(1.3); backdrop-filter: blur(26px) saturate(1.3) !important; }
+.topbar { background: rgba(255,255,255,.55) !important; -webkit-backdrop-filter: blur(22px) saturate(1.3); backdrop-filter: blur(22px) saturate(1.3) !important; }
+
+/* ---- DARK glass ---- */
+[data-theme="dark"] body {
+  background-color: #080b11;
+  background-image:
+    radial-gradient(46% 40% at 13% 6%, rgba(124,108,240,.22), transparent 72%),
+    radial-gradient(42% 38% at 88% 5%, rgba(45,212,191,.13), transparent 72%),
+    radial-gradient(50% 46% at 82% 94%, rgba(99,102,241,.18), transparent 72%),
+    radial-gradient(42% 42% at 6% 92%, rgba(236,120,180,.10), transparent 72%);
+}
+[data-theme="dark"] .card, [data-theme="dark"] .kpi-card { background: rgba(26,31,42,.55) !important; border-color: rgba(255,255,255,.09) !important; box-shadow: 0 12px 34px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07) !important; }
+[data-theme="dark"] .gk-card { background: rgba(22,27,37,.55) !important; border-color: rgba(255,255,255,.08) !important; box-shadow: 0 16px 40px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.07) !important; }
+[data-theme="dark"] .gk-signal { background: rgba(30,36,48,.5) !important; border-color: rgba(255,255,255,.08) !important; box-shadow: 0 6px 20px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06) !important; }
+[data-theme="dark"] .gk-dial { background: linear-gradient(145deg, rgba(30,36,48,.7), rgba(16,20,28,.5)) !important; }
+[data-theme="dark"] .sidebar, [data-theme="dark"] .sidebar-right { background: rgba(15,19,27,.55) !important; }
+[data-theme="dark"] .topbar { background: rgba(13,17,24,.6) !important; }
+
+/* ============================================================
+   v4 add-on — Persona View card: KÍNH TRÁNG nổi bật + thu/mở
+   ============================================================ */
+.ai-summary-box#persona-card {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,.58), rgba(238,235,253,.42)) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.7);
+  backdrop-filter: blur(28px) saturate(1.7) !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 18px 50px rgba(100,84,227,.18), inset 0 1px 0 rgba(255,255,255,.9), inset 0 0 0 1px rgba(255,255,255,.22) !important;
+  transition: box-shadow .3s ease;
+}
+.ai-summary-box#persona-card:hover { box-shadow: 0 24px 60px rgba(100,84,227,.24), inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(255,255,255,.3) !important; }
+/* lớp kính tráng: vệt sáng chéo phản chiếu */
+.ai-summary-box#persona-card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: linear-gradient(118deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.12) 24%, rgba(255,255,255,0) 46%, rgba(255,255,255,0) 100%);
+}
+.ai-summary-box#persona-card > * { position: relative; z-index: 2; }
+.ai-summary-box#persona-card .ai-summary-header { display: flex; align-items: center; gap: 8px; }
+/* thu/mở mượt */
+#persona-card .ai-summary-content { max-height: 1200px; opacity: 1; overflow: hidden; transition: max-height .42s cubic-bezier(.2,.8,.2,1), opacity .3s ease, margin-top .3s ease; }
+#persona-card.gk-collapsed .ai-summary-content { max-height: 0; opacity: 0; margin-top: 0; }
+#persona-card.gk-collapsed { box-shadow: 0 10px 28px rgba(100,84,227,.12), inset 0 1px 0 rgba(255,255,255,.85) !important; }
+#persona-collapse svg { transition: transform .28s ease; }
+#persona-card.gk-collapsed #persona-collapse svg { transform: rotate(-90deg); }
+
+[data-theme="dark"] .ai-summary-box#persona-card {
+  background: linear-gradient(135deg, rgba(38,33,60,.6), rgba(22,27,37,.46)) !important;
+  border-color: rgba(255,255,255,.12) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(255,255,255,.05) !important;
+}
+[data-theme="dark"] .ai-summary-box#persona-card::before {
+  background: linear-gradient(118deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.04) 24%, rgba(255,255,255,0) 46%) !important;
+}
+
+/* Persona summary — bố cục 2 cột, nhãn sạch + chấm màu (gọn, dễ quét) */
+#persona-card .ai-summary-content { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 30px; }
+#persona-card .ai-sec { min-width: 0; }
+#persona-card .ai-sec-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); margin-bottom: 7px; }
+#persona-card .ai-sec-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--purple); box-shadow: 0 0 0 3px rgba(100,84,227,.14); }
+#persona-card .ai-sec:nth-child(1) .ai-sec-dot { background: var(--purple); box-shadow: 0 0 0 3px rgba(100,84,227,.14); }
+#persona-card .ai-sec:nth-child(2) .ai-sec-dot { background: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.14); }
+#persona-card .ai-sec:nth-child(3) .ai-sec-dot { background: var(--amber); box-shadow: 0 0 0 3px rgba(180,83,9,.16); }
+#persona-card .ai-sec:nth-child(4) .ai-sec-dot { background: var(--green); box-shadow: 0 0 0 3px rgba(21,128,61,.16); }
+#persona-card .ai-sec-body, #persona-card .ai-sec-body p { font-size: 13px; line-height: 1.62; color: var(--text2); margin: 0; }
+#persona-card .ai-sec-body ul { margin: 5px 0 0; padding-left: 18px; }
+#persona-card .ai-sec-body li { font-size: 13px; line-height: 1.6; color: var(--text2); margin-bottom: 4px; }
+#persona-card .ai-sec-body strong { color: var(--text-main); font-weight: 800; }
+@media (max-width: 1180px) { #persona-card .ai-summary-content { grid-template-columns: 1fr; gap: 14px; } }
+
+/* Exec narrow-card tables: cuộn ngang gọn thay vì bị cắt cột */
+.growth-table.cohort-table { min-width: 420px; }
+.growth-table.cohort-table th, .growth-table.cohort-table td { white-space: nowrap; }
+#exec-channel-table-body td, #exec-channel-table-body tr th { white-space: nowrap; }
+
+/* Growth Health — thanh thành phần điểm (lấp đầy card, cân chiều cao) */
+.gh-dim { display: grid; grid-template-columns: 96px 1fr 28px; align-items: center; gap: 12px; margin-bottom: 13px; }
+.gh-dim:last-child { margin-bottom: 0; }
+.gh-dim-lbl { font-size: 11.5px; color: var(--text2); font-weight: 600; white-space: nowrap; }
+.gh-dim-track { height: 8px; border-radius: 6px; background: #e6e9f2; overflow: hidden; box-shadow: inset 1px 1px 3px rgba(17,23,38,.12); }
+.gh-dim-fill { display: block; height: 100%; border-radius: 6px; transition: width .9s cubic-bezier(.2,.85,.25,1); }
+.gh-dim-val { font-size: 12.5px; font-weight: 800; text-align: right; }
+[data-theme="dark"] .gh-dim-track { background: #11151c; box-shadow: inset 1px 1px 3px rgba(0,0,0,.5); }
+
+/* ============================================================
+   v4 add-on — CTA BUTTONS: 1 dòng · căn giữa · đồng nhất
+   ============================================================ */
+.btn { justify-content: center; white-space: nowrap; }
+.lockhint { white-space: nowrap; }
+.btn.btn-secondary[id="btn-toggle-customize"] span, .lockhint span { white-space: nowrap; }
+/* Topbar controls: cùng chiều cao 34px, không co lại, căn giữa hoàn toàn */
+.topbar-controls .btn,
+.topbar-controls .lockhint,
+.topbar-controls .theme-toggle,
+.topbar-controls .custom-select-btn {
+  height: 34px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.topbar-controls .custom-dropdown { flex-shrink: 0; }
+/* An toàn: nếu quá chật, cả NÚT xuống hàng (không vỡ chữ trong nút) */
+.topbar { flex-wrap: wrap; row-gap: 8px; height: auto; min-height: 64px; }
+/* Execute trong bảng ưu tiên: 1 dòng, căn giữa */
+#priority-tbody .btn { white-space: nowrap; justify-content: center; }
+/* Cột Hành động rộng hơn + nút +/- (Impact/Confidence/Ease) gọn lại để nhường chỗ */
+#priority-tbody td:first-child { min-width: 172px; }
+#priority-tbody td:first-child strong { line-height: 1.35; }
+#priority-tbody td:nth-child(3) .btn,
+#priority-tbody td:nth-child(4) .btn,
+#priority-tbody td:nth-child(5) .btn {
+  width: 22px; height: 22px; min-width: 22px; padding: 0; font-size: 13px; border-radius: 6px;
+}
+#priority-tbody td:nth-child(3) > div,
+#priority-tbody td:nth-child(4) > div,
+#priority-tbody td:nth-child(5) > div { gap: 5px !important; }
+#priority-tbody td:nth-child(8) .btn { padding: 5px 12px; }
+
+/* ============================================================
+   v4 add-on — BẢNG kiểu HAIRLINE (nhẹ như kính tráng)
+   Bỏ nền header (chỉ còn 1 đường kẻ mảnh), kẻ hàng bằng hairline, thoáng hơn
+   ============================================================ */
+.growth-table th, .data-table th { background: transparent; border-bottom: 1px solid var(--border-color); padding-top: 9px; padding-bottom: 9px; }
+.growth-table td, .data-table td { border-bottom: 1px solid var(--line2); }
+.growth-table tbody tr:last-child td, .data-table tbody tr:last-child td { border-bottom: none; }
+.growth-table tbody tr:hover, .data-table tbody tr:hover { background: var(--bg-subtle); }
+[data-theme="dark"] .growth-table th, [data-theme="dark"] .data-table th { background: transparent; border-bottom-color: rgba(255,255,255,0.10); }
+[data-theme="dark"] .growth-table td, [data-theme="dark"] .data-table td { border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .growth-table tbody tr:hover, [data-theme="dark"] .data-table tbody tr:hover { background: rgba(255,255,255,0.035); }
+
+/* ============================================================
+   v5 — KHỚP BRAND GUIDELINE (Dashboard Live Preview)
+   Thẻ KÍNH trong (gradient 135°) + LIQUID-MESH nhẹ nướng sẵn vào
+   nền (không cần sửa HTML / không lo z-index) + đổ bóng THANH.
+   Tải sau cùng → là tiếng nói cuối cùng cho .card/.kpi-card.
+   Giữ nguyên .gk-card (các thẻ hero đã dựng theo guideline).
+   ============================================================ */
+/* nền: dải màu nhẹ hơn (gần #f1f5f9 như guideline) để thẻ kính trong vẫn đọc rõ */
+body {
+  background-color: #eaeef6;
+  background-image:
+    radial-gradient(46% 40% at 13% 6%, rgba(124,108,240,.18), transparent 72%),
+    radial-gradient(42% 38% at 88% 5%, rgba(45,212,191,.13), transparent 72%),
+    radial-gradient(50% 46% at 82% 94%, rgba(99,102,241,.14), transparent 72%),
+    radial-gradient(42% 42% at 6% 92%, rgba(236,120,180,.10), transparent 72%) !important;
+}
+.card:not(.gk-card), .kpi-card {
+  background:
+    radial-gradient(55% 76% at 18% 96%, rgba(255,182,206,.20), transparent 70%),
+    radial-gradient(46% 66% at 44% 105%, rgba(255,223,178,.14), transparent 72%),
+    radial-gradient(55% 76% at 84% 96%, rgba(206,184,255,.22), transparent 70%),
+    radial-gradient(46% 66% at 97% 105%, rgba(186,208,255,.17), transparent 72%),
+    linear-gradient(135deg, rgba(255,255,255,.54) 0%, rgba(255,255,255,.32) 100%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  backdrop-filter: blur(24px) saturate(1.25) !important;
+  border: 1px solid rgba(255,255,255,.56) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 30px rgba(31,38,135,.04), inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+.card:not(.gk-card):hover, .kpi-card:hover {
+  box-shadow: 0 16px 38px rgba(99,102,241,.10), inset 0 1.5px 1px #ffffff !important;
+  transform: translateY(-3px);
+}
+[data-theme="dark"] .card:not(.gk-card), [data-theme="dark"] .kpi-card {
+  background:
+    radial-gradient(42% 60% at 15% 6%, rgba(196,132,252,.12), transparent 70%),
+    radial-gradient(44% 56% at 90% 8%, rgba(56,189,248,.10), transparent 70%),
+    radial-gradient(52% 66% at 86% 102%, rgba(99,102,241,.14), transparent 72%),
+    linear-gradient(135deg, rgba(42,48,62,.62) 0%, rgba(28,33,44,.48) 100%) !important;
+  border: 1px solid rgba(255,255,255,.09) !important;
+  box-shadow: 0 12px 34px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+/* ----- tile-h: ICON tiêu đề thành ORB KÍNH (glass-orb) như guideline ----- */
+.card:not(.gk-card) h3 > svg {
+  width: 30px; height: 30px; padding: 6px; border-radius: 50%;
+  background: radial-gradient(62% 55% at 36% 28%, rgba(255,255,255,.95), rgba(255,255,255,.55) 52%, rgba(196,180,250,.42));
+  border: 1px solid rgba(255,255,255,.78);
+  box-shadow: 0 3px 8px rgba(109,94,246,.20), inset 0 1px 1.5px rgba(255,255,255,.95);
+  color: var(--purple); box-sizing: border-box; flex-shrink: 0; overflow: visible;
+}
+[data-theme="dark"] .card:not(.gk-card) h3 > svg {
+  background: radial-gradient(62% 55% at 36% 28%, rgba(255,255,255,.18), rgba(255,255,255,.06) 52%, rgba(142,127,242,.24));
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 3px 8px rgba(0,0,0,.4), inset 0 1px 1.5px rgba(255,255,255,.12);
+  color: #b8acff;
+}
+
+/* ----- pill: BADGE thành viên kính (translucent + blur + inset) như guideline ----- */
+.badge {
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+  box-shadow: inset 0 1.5px 1.5px rgba(255,255,255,.82), 0 3px 9px rgba(31,38,135,.06);
+  padding: 5px 13px;
+  background: rgba(255,255,255,.55) !important;
+}
+[data-theme="dark"] .badge { background: rgba(255,255,255,.10) !important; box-shadow: inset 0 1px 1px rgba(255,255,255,.14), 0 3px 9px rgba(0,0,0,.3); }
+[data-theme="dark"] .badge.fix, [data-theme="dark"] .badge.stop { color: #fca5a5 !important; }
+[data-theme="dark"] .badge.optimize { color: #5eead4 !important; }
+[data-theme="dark"] .badge.scale { color: #c4b5fd !important; }
+[data-theme="dark"] .badge.test { color: #fcd34d !important; }
+
+/* ============================================================
+   v6 — HỆ THỐNG FONT-SIZE (type scale) · dễ đọc · phân cấp rõ
+   Chữ gom về 4 bậc TEXT: 14 (tiêu đề thẻ) / 13 (body) / 12 (label) / 11 (caption · SÀN).
+   Số liệu giữ thang riêng nổi bật: 26 (KPI) · 20 (page) · 16–18 (value).
+   Khử cụm 11.5 / 12.5 / 13.5 cho hết "gần giống nhau" làm mờ phân cấp.
+   ============================================================ */
+:root {
+  --fs-display: 26px;   /* số KPI lớn, gauge */
+  --fs-h1:      20px;   /* tiêu đề trang (header) */
+  --fs-h2:      12px;   /* tiêu đề thẻ / mục (tile-h, in hoa) */
+  --fs-body:    13px;   /* body · ô bảng · prose */
+  --fs-label:   12px;   /* nhãn · sub-label */
+  --fs-caption: 11px;   /* caption · metadata · badge · trục chart — SÀN */
+}
+
+/* --- Bậc trên: làm rõ đỉnh phân cấp --- */
+.page-title-section h1, #main-header-title { font-size: var(--fs-h1) !important; }
+.card h3 { font-size: var(--fs-h2) !important; }            /* tiêu đề thẻ 13→14: tách khỏi body 13 */
+
+/* --- Body & dữ liệu bảng: nâng tính dễ đọc (11→13) --- */
+.growth-table td { font-size: var(--fs-body) !important; }
+.growth-table th { font-size: var(--fs-caption) !important; }
+
+/* --- Gom các cỡ "gần trùng" về đúng bậc (đè cả inline) --- */
+[style*="font-size: 11.5px"], [style*="font-size:11.5px"] { font-size: var(--fs-label) !important; } /* 11.5→12 */
+[style*="font-size: 12.5px"], [style*="font-size:12.5px"] { font-size: var(--fs-body) !important; }  /* 12.5→13 */
+[style*="font-size: 13.5px"], [style*="font-size:13.5px"] { font-size: var(--fs-body) !important; }  /* 13.5→13 */
+/* gom cỡ lẻ còn nằm trong CSS-rule (catch-all attribute không bắt được) về bậc */
+.gk-signal-badge { font-size: var(--fs-caption) !important; }
+.gh-dim-lbl, .gk-signal-lab { font-size: var(--fs-label) !important; }
+.cmdk-trigger, .gh-dim-val { font-size: var(--fs-body) !important; }
+
+/* ============================================================
+   v7 — CTA / chip / tag LUÔN 1 HÀNG (không xuống dòng vô lý)
+   Đã đo: .kpi-trend "+12.5% vs 30d" vỡ 2 dòng · badge "4 Cảnh báo" vỡ 3 dòng.
+   ============================================================ */
+.kpi-trend, .badge, .pill, .gk-signal-badge, .kpi-trend-badge, .trend-tab { white-space: nowrap !important; flex-shrink: 0; }
+.cmdk-trigger { white-space: nowrap; flex-wrap: nowrap; }
+
+/* ============================================================
+   v8 — TƯƠNG PHẢN: không để chữ CHÌM vào nền
+   Cohort heatmap dùng màu chữ CỐ ĐỊNH (tím/navy) — ổn ở light nhưng
+   CHÌM ở dark (đo được 1.61:1). Cho dark một palette riêng + chữ sáng.
+   Nhãn phễu chữ trắng trên gradient → thêm bóng nhẹ để luôn đọc rõ.
+   ============================================================ */
+/* LIGHT: nền tím ĐẶC theo bậc (tránh "vùng chết" của rgba-trên-thẻ) + màu chữ đã kiểm contrast ≥5:1 */
+.ch-low      { background: #EFEBFE !important; color: #4C1D95 !important; }  /* ~10:1 */
+.ch-med-low  { background: #DDD4FD !important; color: #4C1D95 !important; }  /* ~8.5:1 */
+.ch-med      { background: #C0AEFB !important; color: #312E81 !important; }  /* ~7:1 */
+.ch-med-high { background: #9D7BF5 !important; color: #1E1B4B !important; }  /* ~5.3:1 (chữ tối, nền chưa đủ tối cho chữ trắng) */
+.ch-high     { background: #7C3AED !important; color: #FFFFFF !important; }  /* ~5.8:1 (nền đủ tối → chữ trắng) */
+/* DARK: nền tím theo bậc + chữ SÁNG (đo lại đều ≥4.7:1) */
+[data-theme="dark"] .ch-low      { background: rgba(139,124,246,0.14) !important; color: #cbb6ff !important; }
+[data-theme="dark"] .ch-med-low  { background: rgba(139,124,246,0.24) !important; color: #d8caff !important; }
+[data-theme="dark"] .ch-med      { background: rgba(139,124,246,0.40) !important; color: #f1edff !important; }
+[data-theme="dark"] .ch-med-high { background: rgba(139,124,246,0.58) !important; color: #ffffff !important; }
+[data-theme="dark"] .ch-high     { background: rgba(139,124,246,0.78) !important; color: #ffffff !important; }
+.funnel-slice-label { text-shadow: 0 1px 2px rgba(0,0,0,0.30); }
+
+/* ============================================================
+   v9 — GỐC RỄ đồng nhất typography:
+   (1) NỀN THỪA KẾ = body scale (13px) thay vì 14px lạc nhịp → mọi text
+       không gán cỡ rõ ràng sẽ về đúng bậc BODY (không còn 14px "lậu").
+   (2) .data-table (Market + 13 chỗ) KHÔNG có rule font → thừa kế 14px,
+       lệch với .growth-table (13). Cho .data-table DÙNG CHUNG chuẩn bảng.
+   ============================================================ */
+body { font-size: var(--fs-body); }   /* 14 → 13 (bậc body của type scale) */
+.data-table th { font-size: var(--fs-caption) !important; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--text3); }
+.data-table td { font-size: var(--fs-body) !important; }
+/* THANG SỐ: gom cỡ lẻ về bậc chuẩn (16/18/20/22/26 + hero 32). Bỏ 15/24/28/30/36. */
+[style*="font-size: 15px"], [style*="font-size:15px"] { font-size: var(--fs-h2) !important; }  /* 15→14 */
+[style*="font-size: 24px"], [style*="font-size:24px"] { font-size: 22px !important; }           /* 24→22 */
+[style*="font-size: 28px"], [style*="font-size:28px"] { font-size: 26px !important; }           /* 28→26 */
+[style*="font-size: 30px"], [style*="font-size:30px"] { font-size: 32px !important; }           /* 30→32 (hero) */
+[style*="font-size: 36px"], [style*="font-size:36px"] { font-size: 32px !important; }           /* 36→32 (hero) */
+
+/* ============================================================
+   v10 — BẢNG gọn gàng (toàn hệ thống): hàng thấp hơn · header 1 dòng ·
+   bảng nhiều cột đủ rộng (cuộn ngang) · ô prose KẸP 2 dòng (hết wrap dài).
+   ============================================================ */
+/* System-wide: giảm chiều cao hàng + header không xuống dòng */
+.growth-table td, .data-table td { padding-top: 7px !important; padding-bottom: 7px !important; vertical-align: middle; }
+.growth-table th, .data-table th { white-space: nowrap; padding-top: 8px !important; padding-bottom: 8px !important; }
+/* tiện ích: kẹp nội dung dài còn 2 dòng (đủ ý, hàng thấp đều) */
+.cell-clamp2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; word-break: break-word; }
+.cell-wrap { display: block; line-height: 1.4; word-break: break-word; }   /* HIỆN ĐỦ chữ (không cắt), tự xuống dòng */
+/* BẢNG RỘNG/DÀY nhiều cột + có prose → đủ rộng (cuộn ngang nếu cần), cỡ 12px gọn */
+.table-wide { min-width: 1040px; }
+.table-wide td, .table-wide th { font-size: 12px !important; padding-left: 10px !important; padding-right: 10px !important; }
+.table-wide td.td-prose { white-space: normal; vertical-align: top; }
+/* Bảng Nhật Ký Sự Cố: cột ngắn nowrap · cột prose kẹp 2 dòng bề rộng hợp lý */
+#incidents-log-tbody td:nth-child(1), #incidents-log-tbody td:nth-child(2),
+#incidents-log-tbody td:nth-child(5), #incidents-log-tbody td:nth-child(6),
+#incidents-log-tbody td:nth-child(9) { white-space: nowrap; }
+#incidents-log-tbody td:nth-child(3) { min-width: 200px; max-width: 270px; }   /* Tên sự cố — đủ rộng để HIỆN ĐỦ chữ, ít dòng */
+#incidents-log-tbody td:nth-child(4) { max-width: 130px; }                      /* Hệ thống (badge xuống 2 dòng) */
+#incidents-log-tbody td:nth-child(4) .badge { white-space: normal !important; line-height: 1.2; text-align: left; }
+#incidents-log-tbody td:nth-child(7) { min-width: 130px; max-width: 180px; }   /* Người chịu trách nhiệm — đủ chữ */
+#incidents-log-tbody td:nth-child(8) { min-width: 230px; max-width: 320px; }   /* Giải pháp khắc phục — HIỆN ĐỦ chữ */
+
+/* ============================================================
+   v11 — DARK MODE: vá các "ô con" dùng nền rgba(255,255,255,.x) KHÔNG có
+   biến thể dark → ở dark biến thành XÁM SÁNG (chữ chìm). Cho nền KÍNH-TỐI
+   để chữ (token đã sáng trong dark) tương phản rõ. Đồng bộ với .card dark (v5).
+   ============================================================ */
+[data-theme="dark"] .sim-output-card,
+[data-theme="dark"] .migration-rate-item,
+[data-theme="dark"] .alert-item, [data-theme="dark"] .dna-sig-item,
+[data-theme="dark"] .config-item-box,
+[data-theme="dark"] .calc-results,
+[data-theme="dark"] .predictor-result-panel,
+[data-theme="dark"] .card-glass,
+[data-theme="dark"] .db-explorer-toolbar,
+[data-theme="dark"] .msg-cell,
+[data-theme="dark"] .msg-glow-low {
+  background: rgba(255, 255, 255, 0.055) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+/* nút trong dark: kính-tối + chữ sáng (CHỈ XEM, Play, secondary, dropdown, source) */
+[data-theme="dark"] .lockhint,
+[data-theme="dark"] .btn.btn-secondary,
+[data-theme="dark"] .custom-select-btn,
+[data-theme="dark"] .custom-select,
+[data-theme="dark"] .library-item-btn,
+[data-theme="dark"] .migration-source-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: var(--text2);
+}
+[data-theme="dark"] .migration-source-card:hover { background: rgba(139,124,246,0.18) !important; border-color: var(--purple) !important; color: var(--text-main); }
+[data-theme="dark"] .migration-source-card.selected { background: linear-gradient(135deg, rgba(139,124,246,0.30), rgba(139,124,246,0.10)) !important; border-color: var(--purple) !important; color: var(--text-main); }
+[data-theme="dark"] .alert-desc { color: var(--text2); }   /* mô tả cảnh báo rõ hơn (text2 sáng hơn text3) */
+
+/* ============================================================
+   v12 — GỌN & ĐẸP HƠN: nén thẻ "Chỉ báo & Lưu ý" + ma trận 5 chiều
+   (giảm chiều cao, bớt khoảng trắng thừa, vẫn rõ ràng).
+   ============================================================ */
+/* Chỉ báo & Lưu ý — tile thấp hơn ~30% */
+.gk-signals { gap: 10px !important; }
+.gk-signal { padding: 10px 14px !important; gap: 12px !important; }
+.gk-signal-ic { width: 38px !important; height: 38px !important; flex: 0 0 38px !important; border-radius: 11px !important; }
+.gk-signal-ic svg { width: 18px !important; height: 18px !important; }
+.gk-signal-lab { font-size: 11px !important; }
+.gk-signal-val { font-size: 20px !important; margin-top: 1px !important; }
+.gk-signal-badge { font-size: 11px !important; padding: 5px 11px !important; }
+/* 5-Dimension Matrix — thẻ chiều dày hơn, bớt khoảng trống */
+#tab-team-ops [style*="border-left: 3px solid"] { padding: 8px 11px !important; }
+#tab-team-ops [id^="eff-"][id$="-container"] { gap: 3px !important; }
+
+
+/* ============================================================
+   v12 — Chỉ báo & Lưu ý: tile gọn + thanh đo (meter) lấp khoảng trống giữa
+   Scope #vh-signals để không ảnh hưởng .gk-signal nơi khác
+   ============================================================ */
+/* Card Chỉ báo giãn bằng chiều cao hàng (= card Value Health) để 4 tile phân bố lấp đầy, hết khoảng trống */
+#sig-card { align-self: stretch !important; display: flex !important; flex-direction: column !important; }
+#sig-card .gk-body { flex: 1 1 auto !important; min-height: 0; display: flex !important; flex-direction: column !important; }
+#vh-signals { display: flex !important; flex-direction: column !important; gap: 12px !important; flex: 1 1 auto; min-height: 0; justify-content: space-between; }
+#vh-signals .gk-signal {
+  flex: 1 1 0; min-height: 0;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: center;
+  gap: 12px !important;
+  padding: 16px 18px !important;
+}
+#vh-signals .gk-signal-top { display: flex; align-items: center; gap: 11px; }
+#vh-signals .gk-signal-ic { width: 34px !important; height: 34px !important; flex: 0 0 34px !important; border-radius: 10px !important; }
+#vh-signals .gk-signal-ic svg { width: 17px !important; height: 17px !important; }
+#vh-signals .gk-signal-lab {
+  flex: 1 1 auto; min-width: 0;
+  font-size: 12px !important; font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#vh-signals .gk-signal-val {
+  flex: 0 0 auto; font-size: 21px !important; font-weight: 800;
+  line-height: 1; margin: 0 !important; letter-spacing: -.5px; color: var(--text-main);
+}
+#vh-signals .gk-signal-badge { flex: 0 0 auto; align-self: center; }
+#vh-signals .gk-signal-meter { height: 6px; border-radius: 999px; background: rgba(17,23,38,.07); overflow: hidden; }
+#vh-signals .gk-signal-meter > i { display: block; height: 100%; border-radius: 999px; transition: width .7s cubic-bezier(.22,1,.36,1); }
+[data-theme="dark"] #vh-signals .gk-signal-meter { background: rgba(255,255,255,.10); }
+
+/* ============================================================
+   v13 — 5-Dimension Effectiveness Matrix: hàng có hairline, giá trị đậm rõ,
+   tăng độ dễ đọc (label nhạt / value đậm) thay vì khối chữ phẳng
+   ============================================================ */
+#eff-delivery-container, #eff-productivity-container, #eff-quality-container,
+#eff-collaboration-container, #eff-innovation-container { gap: 0 !important; }
+#eff-delivery-container > div, #eff-productivity-container > div, #eff-quality-container > div,
+#eff-collaboration-container > div, #eff-innovation-container > div {
+  padding: 5px 0 !important;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 11.5px !important;
+  align-items: center;
+}
+#eff-delivery-container > div:last-child, #eff-productivity-container > div:last-child,
+#eff-quality-container > div:last-child, #eff-collaboration-container > div:last-child,
+#eff-innovation-container > div:last-child { border-bottom: none; }
+#eff-delivery-container > div > span, #eff-productivity-container > div > span,
+#eff-quality-container > div > span, #eff-collaboration-container > div > span,
+#eff-innovation-container > div > span { color: var(--text3); }
+#eff-delivery-container > div > strong, #eff-productivity-container > div > strong,
+#eff-quality-container > div > strong, #eff-collaboration-container > div > strong,
+#eff-innovation-container > div > strong { color: var(--text-main); font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="dark"] #eff-delivery-container > div, [data-theme="dark"] #eff-productivity-container > div,
+[data-theme="dark"] #eff-quality-container > div, [data-theme="dark"] #eff-collaboration-container > div,
+[data-theme="dark"] #eff-innovation-container > div { border-bottom-color: rgba(255,255,255,.08); }
+
+/* ============================================================
+   v14 — Content Consumption card: 3 cột đều (row1) + Phân khúc full-width (row2)
+   Cho bảng trong cột hẹp tự xuống dòng tiêu đề + cuộn ngang dự phòng (không cắt chữ)
+   ============================================================ */
+.cc-grid { gap: 12px !important; }
+.cc-grid .table-container { overflow-x: auto; }
+.cc-grid .growth-table { font-size: 11px !important; }
+.cc-grid .growth-table th { white-space: normal !important; line-height: 1.25; vertical-align: bottom; padding-left: 5px !important; padding-right: 5px !important; }
+.cc-grid .growth-table td { white-space: nowrap; padding-left: 5px !important; padding-right: 5px !important; }
+.cc-grid .growth-table .badge { padding: 3px 6px !important; }
+
+/* ============================================================
+   v15 — Customer→Segments: (b) Phân khúc V2 = 3 cục ngang · (c) đồng bộ 3 thẻ nội dung
+   Customer KPI giờ là dải .row-kpi-grid TRÊN ĐẦU (dùng chung style Overview, không cần CSS riêng);
+   Value Health (span 4) + Chỉ báo (span 8) trở lại cặp ngang gốc (CSS đã có ở v12).
+   ============================================================ */
+
+/* (b) Phân khúc Giá trị V2 — 3 cục ngang (Tổng nạp · Giao dịch · LTV) */
+.seg3-col { display: flex; flex-direction: column; }
+.seg3-head { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; padding-bottom: 8px; margin-bottom: 2px; border-bottom: 2px solid var(--purple); }
+.seg3-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 8px; padding: 7px 2px; border-bottom: 1px solid var(--border-color); font-size: 12px; }
+.seg3-row:last-child { border-bottom: none; }
+.seg3-name { color: var(--text2); min-width: 0; }
+.seg3-count { color: var(--text-main); font-weight: 700; font-variant-numeric: tabular-nums; }
+.seg3-pct { justify-self: end; }
+[data-theme="dark"] .seg3-row { border-bottom-color: rgba(255,255,255,.08); }
+
+/* (c) Đồng bộ 3 thẻ nội dung: 2 list có hairline rows + giãn đầy giống bảng Hiệu quả */
+.cc-list { gap: 0 !important; flex: 1 1 auto; justify-content: space-between; }
+.cc-list > div { padding: 7px 0 !important; border-bottom: 1px solid var(--border-color); }
+.cc-list > div:last-child { border-bottom: none; }
+.cc-list strong { color: var(--text-main) !important; font-weight: 700; }
+[data-theme="dark"] .cc-list > div { border-bottom-color: rgba(255,255,255,.08); }
+
+/* ============================================================
+   v16 — Value Health: gauge nhỏ lại cho hài hòa (chỉ #vh-dial, không đụng gauge khác)
+          Chỉ báo & Lưu ý: 2 cột × 2 dòng (tile dọc — label đầy đủ, value riêng dòng, meter)
+   ============================================================ */
+#vh-dial { width: 150px !important; height: 150px !important; }
+#vh-dial svg { width: 134px !important; height: 134px !important; }
+.gk-gauge { padding: 2px 0 !important; }
+
+#vh-signals { display: grid !important; grid-template-columns: 1fr 1fr !important; grid-auto-rows: 1fr; gap: 12px !important; }
+#vh-signals .gk-signal { flex-direction: column !important; align-items: stretch !important; justify-content: center; gap: 9px !important; padding: 14px 16px !important; }
+#vh-signals .gk-signal-top { display: flex; align-items: center; gap: 10px; }
+#vh-signals .gk-signal-ic { width: 32px !important; height: 32px !important; flex: 0 0 32px !important; border-radius: 9px !important; }
+#vh-signals .gk-signal-ic svg { width: 16px !important; height: 16px !important; }
+#vh-signals .gk-signal-lab { flex: 1 1 auto; min-width: 0; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; font-size: 11.5px !important; line-height: 1.25; }
+#vh-signals .gk-signal-row2 { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#vh-signals .gk-signal-val { font-size: 23px !important; margin: 0 !important; }
+#vh-signals .gk-signal-badge { flex: 0 0 auto; align-self: center; }
+
+/* ============================================================
+   v17 — Chỉ báo & Lưu ý: 3 cột tile ở trên · 1 tile + ô "Lưu ý" (span 2) ở dưới
+   ============================================================ */
+#vh-signals { grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 1fr !important; gap: 12px !important; }
+/* tile gọn lại cho cột hẹp (3 cột) */
+#vh-signals .gk-signal { padding: 12px 13px !important; gap: 7px !important; }
+#vh-signals .gk-signal-ic { width: 30px !important; height: 30px !important; flex: 0 0 30px !important; }
+#vh-signals .gk-signal-ic svg { width: 15px !important; height: 15px !important; }
+#vh-signals .gk-signal-lab { font-size: 11px !important; }
+#vh-signals .gk-signal-val { font-size: 19px !important; }
+#vh-signals .gk-signal-row2 { flex-wrap: wrap; row-gap: 4px; }
+#vh-signals .gk-signal-badge { font-size: 10px !important; padding: 3px 8px !important; }
+/* ô Lưu ý — nằm cạnh tile thứ 4 (chiếm 2 cột) */
+.gk-note { grid-column: span 2; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 14px 18px; border-radius: 14px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.6); box-shadow: 0 6px 20px rgba(31,38,135,.08), inset 0 1px 0 rgba(255,255,255,.7); }
+.gk-note-title { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; color: var(--text2); }
+.gk-note-title svg { width: 15px; height: 15px; color: var(--amber); }
+.gk-note-item { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; line-height: 1.45; color: var(--text2); }
+.gk-note-dot { flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; }
+[data-theme="dark"] .gk-note { background: rgba(30,36,48,.5); border-color: rgba(255,255,255,.08); box-shadow: 0 6px 20px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06); }
+
+/* ============================================================
+   v18 — Bản CLASS của các rule VH/Chỉ báo (đang scope #vh-signals/#sig-card/#vh-dial)
+   để các tab Tăng trưởng khác (ct-*, ad-*, pr-*, ex-*) tái dùng layout y như tab Khách hàng.
+   #id của tab Khách hàng vẫn thắng theo specificity → Khách hàng giữ nguyên.
+   ============================================================ */
+.gk-card--vh .gk-dial { width: 150px !important; height: 150px !important; }
+.gk-card--vh .gk-dial svg { width: 134px !important; height: 134px !important; }
+.sig-card { align-self: stretch !important; display: flex !important; flex-direction: column !important; }
+.sig-card .gk-body { flex: 1 1 auto !important; min-height: 0; display: flex !important; flex-direction: column !important; }
+.gk-signals { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; grid-auto-rows: 1fr; gap: 12px !important; flex: 1 1 auto; }
+.gk-signals .gk-signal { flex-direction: column !important; align-items: stretch !important; justify-content: center; gap: 9px !important; padding: 12px 13px !important; }
+.gk-signals .gk-signal-top { display: flex; align-items: center; gap: 10px; }
+.gk-signals .gk-signal-ic { width: 30px !important; height: 30px !important; flex: 0 0 30px !important; border-radius: 9px !important; }
+.gk-signals .gk-signal-ic svg { width: 15px !important; height: 15px !important; }
+.gk-signals .gk-signal-lab { flex: 1 1 auto; min-width: 0; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; font-size: 11px !important; line-height: 1.25; }
+.gk-signals .gk-signal-row2 { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; row-gap: 4px; }
+.gk-signals .gk-signal-val { font-size: 19px !important; margin: 0 !important; }
+.gk-signals .gk-signal-badge { flex: 0 0 auto; align-self: center; font-size: 10px !important; padding: 3px 8px !important; }
+.gk-signals .gk-signal-meter { height: 6px; border-radius: 999px; background: rgba(17,23,38,.07); overflow: hidden; }
+.gk-signals .gk-signal-meter > i { display: block; height: 100%; border-radius: 999px; transition: width .7s cubic-bezier(.22,1,.36,1); }
+[data-theme="dark"] .gk-signals .gk-signal-meter { background: rgba(255,255,255,.10); }
+
+/* Custom Tooltip Styling */
+.has-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  cursor: pointer;
+  color: var(--text3);
+  opacity: 0.7;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  vertical-align: middle;
+}
+
+.has-tooltip:hover {
+  opacity: 1;
+  color: var(--purple-light, #9d91ff);
+}
+
+.has-tooltip .tooltip-icon {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2.5;
+}
+
+/* Tooltip bubble using pseudo-elements */
+.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background: rgba(15, 12, 30, 0.97); /* Elegant dark glassmorphism */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+  width: 260px;
+  white-space: pre-wrap; /* critical to parse &#10; newlines */
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.6), 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1), transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  text-transform: none; /* prevent uppercase inheritance from card h3 */
+  letter-spacing: normal;
+}
+
+.has-tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(15, 12, 30, 0.97) transparent transparent transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1), transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.has-tooltip:hover::after,
+.has-tooltip:hover::before,
+.has-tooltip.active-tooltip::after,
+.has-tooltip.active-tooltip::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Fix card overflow clipping for cards with tooltips */
+.card:has(.has-tooltip) {
+  overflow: visible !important;
+}
+
+/* Premium Neumorphic/Glassmorphic Tiles for Product Analytics */
+.pg-tile {
+  background: linear-gradient(145deg, #ffffff, #eef1f8);
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 4px 4px 12px rgba(17,23,38,.05), inset 0 1px 0 rgba(255,255,255,.8);
+  padding: 14px 12px;
+  border-radius: 14px;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+.pg-tile:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 6px 8px 18px rgba(17,23,38,.09), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  border-color: rgba(255,255,255,.9) !important;
+}
+[data-theme="dark"] .pg-tile {
+  background: rgba(22,27,37,.45) !important;
+  border-color: rgba(255,255,255,.05) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+[data-theme="dark"] .pg-tile:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,.4) !important;
+  border-color: rgba(255,255,255,.1) !important;
+}
+
+/* Premium Neumorphic Rows for Referral Performance */
+.pg-metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(17,23,38,.02);
+  transition: var(--transition-smooth);
+}
+.pg-metric-row:hover {
+  transform: translateX(2px) !important;
+  border-color: rgba(255,255,255,.9) !important;
+  box-shadow: 4px 4px 12px rgba(17,23,38,.05) !important;
+}
+.pg-metric-row.k-factor-row {
+  background: rgba(100, 84, 227, 0.05);
+  border-color: rgba(100, 84, 227, 0.2);
+}
+[data-theme="dark"] .pg-metric-row {
+  background: rgba(22, 27, 37, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .pg-metric-row.k-factor-row {
+  background: rgba(100, 84, 227, 0.1) !important;
+  border-color: rgba(100, 84, 227, 0.25) !important;
+}
+
+/* Premium Geopolitical Details Sub-card */
+.geopolitical-details-box {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--border-color);
+  box-shadow: 2px 2px 8px rgba(17,23,38,.02);
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text2);
+  transition: var(--transition-smooth);
+}
+[data-theme="dark"] .geopolitical-details-box {
+  background: rgba(22, 27, 37, 0.4) !important;
+  box-shadow: none !important;
+}
+
+/* 5-Dimension Matrix KPI Spacing Row */
+.eff-kpi-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line2);
+  font-size: 11px;
+}
+.eff-kpi-row:last-child {
+  border-bottom: none;
+}
+
+/* Flexible Layout Mode: List Override */
+.layout-mode-list .dashboard-grid {
+  grid-template-columns: 1fr !important;
+}
+
+.layout-mode-list .row-kpi-grid {
+  grid-template-columns: 1fr !important;
+  grid-auto-flow: row !important;
+}
+
+.layout-mode-list .dashboard-grid > *,
+.layout-mode-list .row-kpi-grid > * {
+  grid-column: span 1 !important;
+  width: 100% !important;
+}
+
+/* Tile Tooltip (whole card hoverable tooltip) */
+.has-tile-tooltip {
+  position: relative;
+  cursor: pointer;
+}
+
+.has-tile-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background: rgba(15, 12, 30, 0.97); /* Elegant dark glassmorphism */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+  width: 260px;
+  white-space: pre-wrap; /* critical to parse &#10; newlines */
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.6), 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1), transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.has-tile-tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(15, 12, 30, 0.97) transparent transparent transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1), transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.has-tile-tooltip:hover::after,
+.has-tile-tooltip:hover::before,
+.has-tile-tooltip.active-tooltip::after,
+.has-tile-tooltip.active-tooltip::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+.has-tile-tooltip:hover,
+.has-tile-tooltip.active-tooltip {
+  background: rgba(100, 84, 227, 0.05) !important;
+  border-color: rgba(100, 84, 227, 0.22) !important;
+}
+
+.kpi-legend-card:hover {
+  background: rgba(100, 84, 227, 0.05) !important;
+  border-color: rgba(100, 84, 227, 0.22) !important;
+  box-shadow: 0 4px 12px rgba(100, 84, 227, 0.05);
+}
+
+/* =============================================================
+   PREMIUM GLASS REFLECTION & SWIFT LIGHT ANIMATIONS
+   ============================================================= */
+
+/* Base card positioning and transition overrides */
+.card {
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.008) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glass Reflection overlay (glow that follows mouse on hover) */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-theme="dark"] .card::before {
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(139, 92, 246, 0.07) 0%,
+    rgba(99, 102, 241, 0.03) 40%,
+    transparent 70%
+  );
+}
+
+[data-theme="light"] .card::before {
+  background: radial-gradient(
+    300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(99, 102, 241, 0.04) 0%,
+    rgba(255, 255, 255, 0.25) 45%,
+    transparent 75%
+  );
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Swift Light (Non-spilling, subtle glass reflection/shine contained within card boundaries) */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.15;
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  /* Ambient animation running slowly in background when idle */
+  animation: ambientShine 18s ease-in-out infinite;
+}
+
+/* Unsynchronized random-like delay and duration cycles for different cards */
+.card:nth-child(2n)::after {
+  animation-duration: 22s;
+  animation-delay: 2s;
+}
+.card:nth-child(3n)::after {
+  animation-duration: 26s;
+  animation-delay: 5s;
+}
+.card:nth-child(4n)::after {
+  animation-duration: 16s;
+  animation-delay: 1s;
+}
+
+[data-theme="dark"] .card::after {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+[data-theme="light"] .card::after {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+/* Subtle, smooth shine transition on card hover */
+.card:hover::after {
+  animation: hoverShine 3s ease-in-out 1;
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .card:hover::after {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 75%
+  );
+}
+
+[data-theme="light"] .card:hover::after {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 75%
+  );
+}
+
+/* Keyframes for internal gradient shine animations */
+@keyframes ambientShine {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes hoverShine {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Micro-animations for sidebar links */
+.nav-item {
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item:hover {
+  transform: translateX(4px);
+  background: rgba(100, 84, 227, 0.08) !important;
+}
+
+[data-theme="dark"] .nav-item:hover {
+  color: #fff !important;
+}
+
+[data-theme="light"] .nav-item:hover {
+  color: var(--purple-strong) !important;
+}
+
+/* Subtle bounce/float for active sub-tabs and buttons */
+.btn-purple:hover, .btn-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 84, 227, 0.25);
+  transition: all 0.25s ease;
+}
+
+/* =============================================================
+   INTERACTIVE PREMIUM BRANDING HEADER
+   ============================================================= */
+
+.brand-section {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 24px !important;
+  padding: 10px 14px !important;
+  background: rgba(255, 255, 255, 0.015) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 14px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  flex-shrink: 0 !important;
+}
+
+[data-theme="dark"] .brand-section {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .brand-section {
+  background: rgba(100, 84, 227, 0.02) !important;
+  border-color: rgba(100, 84, 227, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(100, 84, 227, 0.03) !important;
+}
+
+/* Hover State */
+.brand-section:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: rgba(100, 84, 227, 0.06) !important;
+  border-color: rgba(100, 84, 227, 0.22) !important;
+  box-shadow: 0 8px 24px rgba(100, 84, 227, 0.12) !important;
+}
+
+[data-theme="dark"] .brand-section:hover {
+  background: rgba(100, 84, 227, 0.08) !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 10px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Click/Active State (Tactile bounce) */
+.brand-section:active {
+  transform: translateY(1.5px) scale(0.96) !important;
+  background: rgba(100, 84, 227, 0.12) !important;
+  border-color: rgba(100, 84, 227, 0.35) !important;
+  box-shadow: 0 2px 6px rgba(100, 84, 227, 0.04) !important;
+  transition: all 0.1s ease !important;
+}
+
+/* Brand Logo Box Animation */
+.brand-logo {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, var(--purple) 0%, #4f46e5 100%) !important;
+  box-shadow: 0 4px 10px rgba(100, 84, 227, 0.3) !important;
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.brand-section:hover .brand-logo {
+  transform: rotate(12deg) scale(1.08) !important;
+  box-shadow: 0 6px 16px rgba(100, 84, 227, 0.45) !important;
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%) !important;
+}
+
+/* Spin inner SVG elements */
+.brand-logo svg {
+  color: #fff !important;
+  width: 22px !important;
+  height: 22px !important;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.brand-section:hover .brand-logo svg {
+  transform: rotate(180deg) scale(1.1) !important;
+}
+
+/* Brand typography and text style */
+.brand-name {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  color: var(--text-main) !important;
+  transition: color 0.3s ease !important;
+}
+
+.brand-section:hover .brand-name {
+  color: var(--purple-light) !important;
+}
+
+[data-theme="light"] .brand-section:hover .brand-name {
+  color: var(--purple) !important;
+}
+
+.brand-subtitle {
+  font-size: 10px !important;
+  color: var(--text-muted) !important;
+  letter-spacing: 1.5px !important;
+  font-weight: 700 !important;
+  display: block !important;
+  text-transform: uppercase !important;
+  transition: color 0.3s ease !important;
+}
+
+.brand-section:hover .brand-subtitle {
+  color: var(--text-main) !important;
+}
+
+/* Brand active status dot badge with pulsing glow animation */
+.brand-section .dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: #10b981 !important; /* Emerald green */
+  display: inline-block !important;
+  box-shadow: 0 0 10px #10b981, 0 0 4px #10b981 !important;
+  animation: logoDotPulse 2s infinite !important;
+}
+
+@keyframes logoDotPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6), 0 0 6px #10b981;
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0), 0 0 6px #10b981;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0), 0 0 6px #10b981;
+  }
+}
+
+/* Collapsed Sidebar overrides for brand section */
+@media (max-width: 1024px) {
+  .brand-section {
+    padding: 10px 0 !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* =============================================================
+   ACCESSIBILITY & CONTRAST OPTIMIZATIONS (WCAG COMPLIANCE)
+   ============================================================= */
+
+/* 1. Ensure all card content elements render ABOVE background glares and light sweeps */
+.card > *, .kpi-card > *, .gk-card > *, .gk-signal > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* 2. Prevent hover color collision on sidebar items */
+[data-theme="light"] .nav-item:hover svg {
+  color: var(--purple-strong) !important;
+  opacity: 1 !important;
+}
+
+[data-theme="dark"] .nav-item:hover svg {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+/* 3. Increase opacity of Glass Cards in dark mode for solid text backdrops */
+[data-theme="dark"] .card, 
+[data-theme="dark"] .kpi-card, 
+[data-theme="dark"] .gk-card,
+[data-theme="dark"] .gk-signal {
+  background: rgba(18, 22, 30, 0.94) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-theme="light"] .card,
+[data-theme="light"] .kpi-card,
+[data-theme="light"] .gk-card,
+[data-theme="light"] .gk-signal {
+  background: #ffffff !important;
+  border-color: rgba(100, 84, 227, 0.14) !important;
+  box-shadow: 0 8px 24px rgba(100, 84, 227, 0.03), 
+              inset 0 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 4. Increase font weight and contrast of card titles and important metrics */
+.card-title, .card-title-bar h2, .card-title-bar h3, .card h3 {
+  font-weight: 800 !important;
+  letter-spacing: -0.2px !important;
+}
+
+[data-theme="light"] .card-title-bar h2,
+[data-theme="light"] .card-title-bar h3,
+[data-theme="light"] .card h3 {
+  color: var(--text-main) !important;
+}
+
+[data-theme="light"] .brand-subtitle {
+  color: var(--text2) !important;
+  font-weight: 800 !important;
+}
+
+/* 5. Sub-tabs / Segment button active/selected state contrast improvements */
+[data-theme="light"] .gk-seg button:not(.active) {
+  color: var(--text2) !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .gk-seg button.active {
+  background: var(--purple) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(100, 84, 227, 0.2) !important;
+}
+
+[data-theme="light"] .sub-tabs button:not(.active) {
+  color: var(--text2) !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .sub-tabs button.active {
+  background: var(--purple) !important;
+  color: #fff !important;
+}
+
+/* 6. Form control input contrast */
+[data-theme="light"] input, 
+[data-theme="light"] select, 
+[data-theme="light"] textarea {
+  color: var(--text-main) !important;
+  background: #ffffff !important;
+  border-color: rgba(100, 84, 227, 0.22) !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #55526B !important;
+  opacity: 0.9 !important;
+}
+
+/* 7. Audit log text contrasts */
+[data-theme="light"] .data-table td, 
+[data-theme="light"] .growth-table td {
+  color: var(--text2) !important;
+}
+
+[data-theme="light"] .data-table th, 
+[data-theme="light"] .growth-table th {
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+  background: rgba(100, 84, 227, 0.05) !important;
+}
+
+/* 8. Persona headers and descriptions contrast */
+[data-theme="light"] #persona-card .ai-sec-body {
+  color: var(--text-main) !important;
+  line-height: 1.6 !important;
+}
+
+/* 9. Dark Mode Accessibility & High-Contrast Overrides */
+[data-theme="dark"] .growth-table th, 
+[data-theme="dark"] .data-table th {
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+  background: var(--bg-surface-elevated) !important;
+  border-bottom: 1.5px solid var(--border-strong) !important;
+}
+
+[data-theme="dark"] .growth-table td, 
+[data-theme="dark"] .data-table td {
+  color: var(--text2) !important;
+}
+
+/* Zebra striping for long tables in dark mode to assist horizontal eye tracking */
+[data-theme="dark"] .growth-table tbody tr:nth-child(even), 
+[data-theme="dark"] .data-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.015) !important;
+}
+
+[data-theme="dark"] .growth-table tbody tr:hover, 
+[data-theme="dark"] .data-table tbody tr:hover {
+  background: rgba(159, 146, 236, 0.12) !important;
+}
+
+/* Form controls inputs contrast in dark mode */
+[data-theme="dark"] input, 
+[data-theme="dark"] select, 
+[data-theme="dark"] textarea {
+  color: var(--text-main) !important;
+  background: var(--bg-surface) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] input:focus, 
+[data-theme="dark"] select:focus, 
+[data-theme="dark"] textarea:focus {
+  border-color: var(--purple) !important;
+  box-shadow: 0 0 8px rgba(159, 146, 236, 0.3) !important;
+}
+
+[data-theme="dark"] ::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Sub-tabs / Segment buttons active/selected state contrast in dark mode */
+[data-theme="dark"] .gk-seg button:not(.active),
+[data-theme="dark"] .sub-tabs button:not(.active) {
+  color: var(--text2) !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dark"] .gk-seg button.active,
+[data-theme="dark"] .sub-tabs button.active {
+  background: var(--purple) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(159, 146, 236, 0.35) !important;
+}
+
+[data-theme="dark"] #persona-card .ai-sec-body {
+  color: var(--text2) !important;
+}
+
+/* =================================================================
+   v19 — ELEGANT GLASS REFINEMENT · "kính tráng gương"
+   Final, authoritative layer. Retires the puffy neumorphic offset
+   shadows on cards for one thin frosted-glass treatment; flattens
+   candy pills; removes the glow on meters. Surface changes are
+   scoped to [data-theme="light"] so the dark theme's deliberate
+   look is untouched; the de-candy touches are theme-agnostic.
+   ================================================================= */
+
+/* A1 · KPI cards → thin frosted glass.
+   The paired selector outranks BOTH the global .kpi-card neumorphic
+   rule AND the id-scoped #tab-customer-value .kpi-card rule. */
+[data-theme="light"] .kpi-card,
+[data-theme="light"] #tab-customer-value .kpi-card {
+  background: linear-gradient(165deg, rgba(255,255,255,.95), rgba(248,250,253,.80)) !important;
+  -webkit-backdrop-filter: blur(11px) saturate(128%);
+  backdrop-filter: blur(11px) saturate(128%);
+  border: 1px solid rgba(100,84,227,.12) !important;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.03),
+    0 16px 38px -24px rgba(15,23,42,.20),
+    inset 0 1px 0 rgba(255,255,255,.85) !important;
+  transition: transform .26s cubic-bezier(.4,0,.2,1), box-shadow .26s ease, border-color .26s ease !important;
+}
+[data-theme="light"] .kpi-card:hover,
+[data-theme="light"] #tab-customer-value .kpi-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(100,84,227,.26) !important;
+  box-shadow:
+    0 2px 6px rgba(15,23,42,.04),
+    0 26px 50px -22px rgba(100,84,227,.28),
+    inset 0 1px 0 rgba(255,255,255,.92) !important;
+}
+
+/* A2 · Big container cards → retire the offset shadow (shadow only;
+   bg & border kept so semantic/coloured cards stay intact). */
+[data-theme="light"] .card:not(.gk-card) {
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.03),
+    0 18px 40px -26px rgba(15,23,42,.18),
+    inset 0 1px 0 rgba(255,255,255,.75) !important;
+}
+
+/* B · Trend pills → flat tint, no pressed/inset 3-D */
+.kpi-trend, .kpi-trend.up, .kpi-trend.down {
+  box-shadow: none !important;
+  border-radius: 7px !important;
+  font-weight: 700 !important;
+  letter-spacing: .1px !important;
+}
+
+/* C · Meters / progress fills → remove the candy glow */
+.gk-prog-f { box-shadow: none !important; }
+
+/* D · Signal badges → calmer, more typographic */
+.gk-signal-badge { font-weight: 700 !important; letter-spacing: .2px !important; }
+
+/* E · Coin icons (light) → clean chip, no neumorphic offset */
+[data-theme="light"] .gk-coin {
+  box-shadow: 0 1px 3px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+
+/* F · Gauge dial (light) → soft frosted disc instead of pressed-coin
+   neumorphism (halve the offsets so it still reads as an instrument). */
+[data-theme="light"] .gk-dial {
+  box-shadow: inset 2px 2px 6px rgba(17,23,38,.05), inset -2px -2px 6px rgba(255,255,255,.65) !important;
+}
+
+/* =================================================================
+   v20 — JUSTIFIED BODY TEXT · "text justify thẳng hàng"
+   Canh đều hai mép cho các đoạn mô tả nhiều dòng (Persona View,
+   phụ đề thẻ), đồng bộ với khối hướng dẫn ở màn đăng nhập. Dòng
+   đơn vẫn hiển thị như căn trái nên không ảnh hưởng nhãn ngắn.
+   ================================================================= */
+.card-subtitle,
+.ai-sec-body,
+#persona-card p,
+#persona-card .ai-sec-body {
+  text-align: justify !important;
+  text-justify: inter-word;
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+
+/* =================================================================
+   v21 — TOOLTIP REDESIGN · card trắng kính, tiêu đề đậm + nhãn tím
+   Thay bong bóng tối (pseudo-element) bằng card trắng do JS dựng
+   (#gd-tip): nhãn Ý nghĩa/Cách tính/Công thức/Biến động màu tím.
+   ================================================================= */
+.has-tooltip::after, .has-tooltip::before,
+.has-tile-tooltip::after, .has-tile-tooltip::before { content: none !important; display: none !important; }
+
+#gd-tip{
+  position: fixed; z-index: 100001; max-width: 306px; min-width: 188px;
+  background: #ffffff; border: 1px solid rgba(15,23,42,.08); border-radius: 14px;
+  box-shadow: 0 20px 50px -14px rgba(15,23,42,.30), 0 3px 10px -2px rgba(15,23,42,.10);
+  padding: 13px 15px; font-size: 12.5px; line-height: 1.55; color: #0b1226;
+  text-transform: none; letter-spacing: normal; font-weight: 400; text-align: left;
+  opacity: 0; transform: translateY(5px) scale(.98); pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+}
+#gd-tip.show{ opacity: 1; transform: translateY(0) scale(1); }
+#gd-tip .gd-tip-title{ font-weight: 800; font-size: 13.5px; letter-spacing: -.2px; color: #0b1226; margin-bottom: 6px; }
+#gd-tip .gd-tip-row{ margin: 3px 0; color: #2a3344; }
+#gd-tip .gd-tip-row b{ color: #6454e3; font-weight: 700; }
+[data-theme="dark"] #gd-tip{ box-shadow: 0 22px 54px -10px rgba(0,0,0,.62), 0 0 0 1px rgba(255,255,255,.05); }
+
+/* =================================================================
+   v23 — DROPDOWN FIXES (bộ lọc phòng ban & các custom dropdown)
+   1) Thoát "bẫy" z-index:3 (rule tương phản .card>*): nâng phần tử
+      con trực tiếp của card có chứa dropdown lên trên các anh em →
+      menu không bị badge/nội dung đè lên nữa.
+   2) Light theme: menu trắng kính, chữ tối dễ đọc (trước bị nền tối).
+   ================================================================= */
+.card > *:has(.custom-dropdown),
+.kpi-card > *:has(.custom-dropdown),
+.gk-card > *:has(.custom-dropdown),
+.card > .card-title-bar:has(.custom-dropdown) { z-index: 50 !important; }
+.custom-dropdown-menu { z-index: 4000 !important; }
+
+[data-theme="light"] .custom-dropdown-menu {
+  background: rgba(255,255,255,.98) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(100,84,227,.16) !important;
+  box-shadow: 0 18px 44px -16px rgba(15,23,42,.28), 0 2px 8px rgba(15,23,42,.06) !important;
+}
+[data-theme="light"] .custom-dropdown-menu .dropdown-item { color: var(--text-main) !important; }
+[data-theme="light"] .custom-dropdown-menu .dropdown-item:hover,
+[data-theme="light"] .custom-dropdown-menu .dropdown-item.active { background: var(--purple-soft) !important; color: var(--purple) !important; }
+
+
+
+
+
